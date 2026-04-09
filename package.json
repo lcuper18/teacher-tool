@@ -1,0 +1,27 @@
+{
+  "name": "teacher-tool",
+  "version": "1.0.0",
+  "description": "Herramienta web local para docentes de secundaria que genera materiales de estudio a partir de documentos PDF/DOC/DOCX usando IA",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && node server.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "clean": "rm -rf backend/node_modules backend/database/*.db backend/storage/uploads/* backend/storage/generated/* frontend/node_modules frontend/dist"
+  },
+  "keywords": [
+    "education",
+    "teacher",
+    "ai",
+    "study-materials",
+    "openrouter"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
