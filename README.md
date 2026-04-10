@@ -12,7 +12,7 @@ Herramienta web local para docentes de secundaria que genera materiales de estud
 | 2 | Backend: servidor Express + SQLite | ✅ Completado |
 | 3 | Backend: procesamiento de archivos | ✅ Completado |
 | 4 | Backend: integración OpenRouter (streaming) | ✅ Completado |
-| 5 | Backend: generación de archivos DOCX | ⬜ En progreso |
+| 5 | Backend: generación de archivos DOCX | 🔄 En progreso (5.1, 5.2 ✅) |
 | 6 | Frontend: estructura base + diseño | ⬜ Pendiente |
 | 7 | Frontend: componentes principales | ⬜ Pendiente |
 | 8 | Frontend: historial de sesiones (sidebar) | ⬜ Pendiente |

@@ -11,7 +11,7 @@
 | 2 | Backend: servidor Express + SQLite | ✅ Completado |
 | 3 | Backend: procesamiento de archivos | ✅ Completado |
 | 4 | Backend: integración OpenRouter (streaming) | ✅ Completado |
-| 5 | Backend: generación de archivos DOCX | ⬜ Pendiente |
+| 5 | Backend: generación de archivos DOCX | 🔄 En progreso (5.1, 5.2 ✅) |
 | 6 | Frontend: estructura base + diseño (estilo Claude AI) | ⬜ Pendiente |
 | 7 | Frontend: componentes principales | ⬜ Pendiente |
 | 8 | Frontend: historial de sesiones (sidebar) | ⬜ Pendiente |
@@ -354,11 +354,11 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 4.4 | Consumo de stream en frontend | Implementar la lectura del stream en el cliente usando `fetch` + `ReadableStream` (no EventSource) | FrontendDev | ✅ |
 | 4.5 | Manejo de errores de API | Capturar y responder rate limit (429), timeout, modelo no disponible con mensajes claros | CyberSecurity | ✅ |
 | 4.6 | Cancelación limpia | Al abortar la generación, cerrar el stream y descartar la sesión sin escribir en SQLite | Programador | ✅ |
-| 5.1 | Crear `create_docx.js` | Módulo que recibe texto markdown y tipo de material, y genera un archivo `.docx` usando la librería `docx` | Programador | ⬜ |
-| 5.2 | Parser markdown → DOCX | Parsear `##`, `**texto**` y `- item` del output de la IA para traducirlos a elementos Heading, Bold y List del DOCX | Programador |
-| 5.3 | Formato diferenciado por tipo | Implementar estructura visual específica para cada uno de los 6 tipos de material en el DOCX | Programador |
+| 5.1 | Crear `create_docx.js` | Módulo que recibe texto markdown y tipo de material, y genera un archivo `.docx` usando la librería `docx` | Programador | ✅ |
+| 5.2 | Parser markdown → DOCX | Parsear `##`, `**texto**` y `- item` del output de la IA para traducirlos a elementos Heading, Bold y List del DOCX | Programador | ✅ |
+| 5.3 | Formato diferenciado por tipo | Implementar estructura visual específica para cada uno de los 6 tipos de material en el DOCX | Programador | ✅ |
 | 5.4 | Header DOCX con config | Leer `school_name` y `teacher_name` desde la tabla `config` de SQLite e incluirlos en el encabezado del DOCX | ExpertSQL |
-| 5.5 | Footer DOCX | Agregar footer con número de página automático y fecha de generación en formato legible | Programador |
+| 5.5 | Footer DOCX | Agregar footer con número de página automático y fecha de generación en formato legible | Programador | ✅ |
 | 5.6 | Guardar DOCX en storage | Escribir el archivo en `backend/storage/generated/{session_id}.docx` con manejo de errores de escritura | DevOps |
 | 5.7 | Actualizar SQLite con ruta DOCX | Ejecutar UPDATE en la tabla `sessions` para registrar el `docx_path` una vez generado el archivo | ExpertSQL |
 | 6.1 | Configurar Vite + React + Tailwind | Inicializar proyecto Vite con plugin React, configurar TailwindCSS con PostCSS y autoprefixer | FrontendDev |
@@ -466,6 +466,7 @@ npm run build
 | 2026-04-09 | — | Plan inicial creado | ✅ |
 | 2026-04-09 | — | Decisiones técnicas complementarias agregadas | ✅ |
 | 2026-04-09 | 1-4 | Fases 1-4 completadas (config, servidor, archivos, IA streaming) | ✅ |
+| 2026-04-09 | 5.1-5.2 | Fase 5 iniciada: create_docx.js + parser markdown → DOCX | ✅ |
 
 ---
 
