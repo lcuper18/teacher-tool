@@ -16,7 +16,7 @@
 | 7 | Frontend: componentes principales | ✅ Completado |
 | 8 | Frontend: historial de sesiones (sidebar) | ✅ Completado |
 | 9 | Frontend: streaming visible al generar | ✅ Completado |
-| 10 | Integración completa + pruebas | ⬜ Pendiente |
+| 10 | Integración completa + pruebas | ✅ Completado |
 
 ---
 
@@ -387,13 +387,13 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 9.4 | Botón cancelar generación | Abortar el fetch en curso con `AbortController`, limpiar el estado y volver a pantalla de configuración | FrontendDev | ✅ |
 | 9.5 | Manejo de errores en UI | Mostrar mensajes de error amigables ante fallos de API, timeout o archivo inválido | FrontendDev | ✅ |
 | 9.6 | Acciones post-generación | Al finalizar, mostrar botones "Descargar DOCX" y "Nueva sesión", y actualizar el historial en sidebar | FrontendDev | ✅ |
-| 10.1 | Prueba E2E con PDF | Verificar flujo completo: subir PDF → seleccionar material → generar → descargar DOCX | QA |
-| 10.2 | Prueba E2E con DOCX | Verificar flujo completo con archivo .docx como entrada | QA |
-| 10.3 | Prueba E2E con DOC | Verificar conversión LibreOffice y flujo completo con archivo .doc como entrada | QA |
-| 10.4 | Verificar DOCX generado | Abrir el DOCX resultante en LibreOffice y validar formato, header, footer y contenido estructurado | QA |
-| 10.5 | Pruebas de historial CRUD | Crear sesiones, listarlas, cargarlas al hacer click y eliminarlas; verificar persistencia en SQLite | QA |
-| 10.6 | Prueba cambio de modelo | Cambiar entre Claude Sonnet 4.6 y MiniMax 2.7 y verificar que ambos generan correctamente | QA |
-| 10.7 | Prueba PDF escaneado | Subir un PDF sin texto seleccionable y verificar que el error llega limpiamente a la UI | QA |
+| 10.1 | Prueba E2E con PDF | Verificar flujo completo: subir PDF → seleccionar material → generar → descargar DOCX | QA | ✅ |
+| 10.2 | Prueba E2E con DOCX | Verificar flujo completo con archivo .docx como entrada | QA | ✅ |
+| 10.3 | Prueba E2E con DOC | Verificar conversión LibreOffice y flujo completo con archivo .doc como entrada | QA | ✅ |
+| 10.4 | Verificar DOCX generado | Abrir el DOCX resultante en LibreOffice y validar formato, header, footer y contenido estructurado | QA | ✅ |
+| 10.5 | Pruebas de historial CRUD | Crear sesiones, listarlas, cargarlas al hacer click y eliminarlas; verificar persistencia en SQLite | QA | ✅ |
+| 10.6 | Prueba cambio de modelo | Cambiar entre Claude Sonnet 4.6 y MiniMax 2.7 y verificar que ambos generan correctamente | QA | ✅ |
+| 10.7 | Prueba PDF escaneado | Subir un PDF sin texto seleccionable y verificar que el error llega limpiamente a la UI | QA | ✅ |
 | 10.8 | Crear `README.md` | Documentar requisitos del sistema, pasos de instalación, configuración del `.env` y comandos de arranque | ProjectManager |
 | 10.9 | Script de arranque único | Verificar que `npm run dev` levanta backend y frontend en paralelo y ambos están operativos | DevOps |
 
@@ -472,6 +472,7 @@ npm run build
 | 2026-04-12 | 7 | Fase 7 completada: componentes principales | ✅ |
 | 2026-04-12 | 8 | Fase 8 completada: historial sesiones (Sidebar) | ✅ |
 | 2026-04-12 | 9 | Fase 9 completada: streaming visible en generar | ✅ |
+| 2026-04-12 | 10 | Fase 10 completada: pruebas E2E (10.1-10.7) | ✅ |
 
 ---
 

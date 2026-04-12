@@ -17,6 +17,7 @@ Herramienta web local para docentes de secundaria que genera materiales de estud
 | 7 | Frontend: componentes principales | ✅ Completado |
 | 8 | Frontend: historial de sesiones (sidebar) | ✅ Completado |
 | 9 | Frontend: streaming visible al generar | ✅ Completado |
+| 10 | Integración completa + pruebas | ✅ Completado |
 | 8 | Frontend: historial de sesiones (sidebar) | ⬜ Pendiente |
 | 9 | Frontend: streaming visible al generar | ⬜ Pendiente |
 | 10 | Integración completa + pruebas | ⬜ Pendiente |
