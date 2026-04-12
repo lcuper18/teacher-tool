@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   try {
     const db = getDb();
     const getAllSettings = db.prepare('SELECT key, value FROM config');
-    const settings = getAllSettings();
+    const settings = getAllSettings.all();
     
     const result = {};
     settings.forEach(row => {

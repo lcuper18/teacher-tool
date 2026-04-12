@@ -71,11 +71,11 @@ router.post('/', async (req, res) => {
     const title = `${materialNames[material_type]} - ${new Date().toLocaleDateString('es-ES')}`;
 
     const insertSession = db.prepare(`
-      INSERT INTO sessions (id, title, model, material_type, extra_instructions, input_text, output_text, docx_path)
-      VALUES (?, ?, ?, ?, ?, ?, ?, NULL)
+      INSERT INTO sessions (id, title, model, material_type, extra_instructions, input_filename, input_text, output_text, docx_path)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL)
     `);
     
-    insertSession.run(sessionId, title, selectedModel, material_type, extra_instructions || '', input_text, '');
+    insertSession.run(sessionId, title, selectedModel, material_type, extra_instructions || '', 'documento.pdf', input_text, '');
 
     console.log(`📝 Sesión creada: ${sessionId}`);
 
