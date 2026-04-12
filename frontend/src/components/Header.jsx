@@ -1,13 +1,21 @@
 import { useState } from 'react';
-import { BookOpen, Settings } from 'lucide-react';
+import { BookOpen, Settings, Cloud, HardDrive } from 'lucide-react';
 import SettingsModal from './SettingsModal.jsx';
 
 function Header({ model, onModelChange, onNewSession }) {
   const [showSettings, setShowSettings] = useState(false);
   
-  const models = [
-    { id: 'anthropic/claude-sonnet-4-6', name: 'Claude Sonnet 4.6' },
-    { id: 'minimax/minimax-01', name: 'MiniMax 2.7' }
+  // OpenRouter models (cloud)
+  const openRouterModels = [
+    { id: 'anthropic/claude-sonnet-4-6', name: 'Claude Sonnet 4.6', provider: 'cloud', icon: Cloud },
+    { id: 'minimax/minimax-01', name: 'MiniMax 2.7', provider: 'cloud', icon: Cloud }
+  ];
+  
+  // Ollama models (local)
+  const ollamaModels = [
+    { id: 'ollama/gemma3:1b', name: 'Gemma 3 (1B)', provider: 'local', icon: HardDrive },
+    { id: 'ollama/qwen3.5:2b', name: 'Qwen 3.5 (2B)', provider: 'local', icon: HardDrive },
+    { id: 'ollama/granite4:3b', name: 'Granite 4 (3B)', provider: 'local', icon: HardDrive }
   ];
   
   return (
@@ -24,9 +32,16 @@ function Header({ model, onModelChange, onNewSession }) {
             onChange={(e) => onModelChange(e.target.value)}
             className="bg-bg-input text-text-primary px-3 py-1.5 rounded-lg border border-border text-sm focus:outline-none focus:border-accent"
           >
-            {models.map(m => (
-              <option key={m.id} value={m.id}>{m.name}</option>
-            ))}
+            <optgroup label="Modelos en la nube (OpenRouter)">
+              {openRouterModels.map(m => (
+                <option key={m.id} value={m.id}>{m.name}</option>
+              ))}
+            </optgroup>
+            <optgroup label="Modelos locales (Ollama)">
+              {ollamaModels.map(m => (
+                <option key={m.id} value={m.id}>{m.name}</option>
+              ))}
+            </optgroup>
           </select>
           
           <button

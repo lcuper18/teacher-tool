@@ -2,10 +2,19 @@ import { Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { getDb } from '../database/db.js';
 import { getPrompt } from '../utils/prompts.js';
-import { generateStream } from '../utils/openrouter.js';
+import { generateStream as generateOpenRouter } from '../utils/openrouter.js';
+import { generateStream as generateOllama, isOllamaRunning } from '../utils/ollama.js';
 import { generateDocx } from '../scripts/create_docx.js';
 
 const router = Router();
+
+// Detect provider based on model ID
+function getProvider(model) {
+  if (model && model.startsWith('ollama/')) {
+    return 'ollama';
+  }
+  return 'openrouter';
+}
 
 // POST /api/generate - Generate material with SSE streaming
 router.post('/', async (req, res) => {
@@ -79,8 +88,21 @@ router.post('/', async (req, res) => {
 
     console.log(`📝 Sesión creada: ${sessionId}`);
 
-    // Get stream from OpenRouter
-    const stream = await generateStream(selectedModel, promptData.messages);
+    // Get stream from appropriate provider
+    const provider = getProvider(selectedModel);
+    console.log(`🤖 Proveedor de IA: ${provider} (modelo: ${selectedModel})`);
+    
+    let stream;
+    if (provider === 'ollama') {
+      // Check if Ollama is available
+      const ollamaAvailable = await isOllamaRunning();
+      if (!ollamaAvailable) {
+        throw new Error('Ollama no está disponible. Asegúrate de que el servicio esté corriendo (ollama serve)');
+      }
+      stream = await generateOllama(selectedModel, promptData.messages);
+    } else {
+      stream = await generateOpenRouter(selectedModel, promptData.messages);
+    }
     
     // Create reader to read the stream
     const reader = stream.getReader();
