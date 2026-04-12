@@ -361,32 +361,32 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 5.5 | Footer DOCX | Agregar footer con número de página automático y fecha de generación en formato legible | Programador | ✅ |
 | 5.6 | Guardar DOCX en storage | Escribir el archivo en `backend/storage/generated/{session_id}.docx` con manejo de errores de escritura | DevOps |
 | 5.7 | Actualizar SQLite con ruta DOCX | Ejecutar UPDATE en la tabla `sessions` para registrar el `docx_path` una vez generado el archivo | ExpertSQL | ✅ |
-| 6.1 | Configurar Vite + React + Tailwind | Inicializar proyecto Vite con plugin React, configurar TailwindCSS con PostCSS y autoprefixer | FrontendDev |
-| 6.2 | Variables CSS globales | Definir la paleta de 10 colores en `:root` dentro de `index.css` siguiendo el estilo visual de Claude AI | FrontendDev |
-| 6.3 | Proxy Vite → backend | Configurar en `vite.config.js` que las rutas `/api` se redirijan a `http://localhost:3001` en desarrollo | FrontendDev |
-| 6.4 | Estilos base `index.css` | Definir reset, tipografía base, scrollbar personalizado y clases utilitarias globales | FrontendDev |
-| 6.5 | Layout principal `App.jsx` | Implementar la estructura sidebar fijo (260px) + área principal flexible con sus estados de pantalla | FrontendDev |
-| 7.1 | Componente `Header.jsx` | Barra superior con logo, selector de modelo IA, botón nueva sesión y botón que abre el SettingsModal | FrontendDev |
-| 7.2 | Componente `DropZone.jsx` | Zona de arrastre con react-dropzone, visualización del archivo cargado y botón para cambiarlo | FrontendDev |
-| 7.3 | Componente `MaterialSelector.jsx` | Grid de 6 cards seleccionables con iconos lucide-react, estado activo resaltado con color acento | FrontendDev |
-| 7.4 | Componente `ExtraInstructions.jsx` | Textarea opcional con contador de caracteres visible y límite de 500 caracteres | FrontendDev |
-| 7.5 | Componente `ResultViewer.jsx` | Área de previsualización del output renderizado con `react-markdown`, tipografía legible y scroll propio | FrontendDev |
-| 7.6 | Componente `DownloadButton.jsx` | Botón que dispara la descarga del DOCX via `GET /api/sessions/:id/download`, con estado de carga | FrontendDev |
-| 7.7 | Componente `SettingsModal.jsx` | Modal con inputs para nombre del colegio y docente; lee configuración actual y guarda via `PUT /api/settings` | FrontendDev |
-| 7.8 | Componentes UI reutilizables | Crear `Button.jsx`, `Spinner.jsx` y `Badge.jsx` con variantes de estilo coherentes con la paleta | FrontendDev |
-| 8.1 | Hook `useSessions.js` | Custom hook que carga el historial paginado, expone funciones de refresh, delete y selección de sesión | FrontendDev |
-| 8.2 | Componente `Sidebar.jsx` | Lista del historial agrupada por fecha (Hoy / Ayer / Esta semana / Anterior) con buscador integrado | FrontendDev |
-| 8.3 | Componente `SessionItem.jsx` | Ítem de sesión con título del archivo, badge de tipo de material, fecha relativa y botón de eliminar | FrontendDev |
-| 8.4 | Búsqueda en sidebar | Filtrar sesiones en tiempo real por nombre de archivo al escribir en el campo de búsqueda | FrontendDev |
-| 8.5 | Click para cargar sesión | Al seleccionar una sesión, cargar su `output_text` en el ResultViewer y marcarla como activa en sidebar | FrontendDev |
-| 8.6 | Eliminar sesión con confirmación | Modal de confirmación antes de llamar a `DELETE /api/sessions/:id`; actualizar lista tras eliminar | FrontendDev |
-| 8.7 | Indicador de sesión activa | Resaltar visualmente en el sidebar la sesión actualmente cargada en el área principal | FrontendDev |
-| 9.1 | Hook `useGenerate.js` | Custom hook que gestiona el ciclo de generación: inicio, recepción de chunks, cancelación y finalización | FrontendDev |
-| 9.2 | Streaming visible en UI | Mostrar los chunks de texto conforme llegan, acumulando el contenido con efecto de escritura progresiva | FrontendDev |
-| 9.3 | Indicador de progreso | Mostrar spinner o barra de progreso animada mientras la generación está en curso | FrontendDev |
-| 9.4 | Botón cancelar generación | Abortar el fetch en curso con `AbortController`, limpiar el estado y volver a pantalla de configuración | FrontendDev |
-| 9.5 | Manejo de errores en UI | Mostrar mensajes de error amigables ante fallos de API, timeout o archivo inválido | FrontendDev |
-| 9.6 | Acciones post-generación | Al finalizar, mostrar botones "Descargar DOCX" y "Nueva sesión", y actualizar el historial en sidebar | FrontendDev |
+| 6.1 | Configurar Vite + React + Tailwind | Inicializar proyecto Vite con plugin React, configurar TailwindCSS con PostCSS y autoprefixer | FrontendDev | ✅ |
+| 6.2 | Variables CSS globales | Definir la paleta de 10 colores en `:root` dentro de `index.css` siguiendo el estilo visual de Claude AI | FrontendDev | ✅ |
+| 6.3 | Proxy Vite → backend | Configurar en `vite.config.js` que las rutas `/api` se redirijan a `http://localhost:3001` en desarrollo | FrontendDev | ✅ |
+| 6.4 | Estilos base `index.css` | Definir reset, tipografía base, scrollbar personalizado y clases utilitarias globales | FrontendDev | ✅ |
+| 6.5 | Layout principal `App.jsx` | Implementar la estructura sidebar fijo (260px) + área principal flexible con sus estados de pantalla | FrontendDev | ✅ |
+| 7.1 | Componente `Header.jsx` | Barra superior con logo, selector de modelo IA, botón nueva sesión y botón que abre el SettingsModal | FrontendDev | ✅ |
+| 7.2 | Componente `DropZone.jsx` | Zona de arrastre con react-dropzone, visualización del archivo cargado y botón para cambiarlo | FrontendDev | ✅ |
+| 7.3 | Componente `MaterialSelector.jsx` | Grid de 6 cards seleccionables con iconos lucide-react, estado activo resaltado con color acento | FrontendDev | ✅ |
+| 7.4 | Componente `ExtraInstructions.jsx` | Textarea opcional con contador de caracteres visible y límite de 500 caracteres | FrontendDev | ✅ |
+| 7.5 | Componente `ResultViewer.jsx` | Área de previsualización del output renderizado con `react-markdown`, tipografía legible y scroll propio | FrontendDev | ✅ |
+| 7.6 | Componente `DownloadButton.jsx` | Botón que dispara la descarga del DOCX via `GET /api/sessions/:id/download`, con estado de carga | FrontendDev | ✅ |
+| 7.7 | Componente `SettingsModal.jsx` | Modal con inputs para nombre del colegio y docente; lee configuración actual y guarda via `PUT /api/settings` | FrontendDev | ✅ |
+| 7.8 | Componentes UI reutilizables | Crear `Button.jsx`, `Spinner.jsx` y `Badge.jsx` con variantes de estilo coherentes con la paleta | FrontendDev | ✅ |
+| 8.1 | Hook `useSessions.js` | Custom hook que carga el historial paginado, expone funciones de refresh, delete y selección de sesión | FrontendDev | ✅ |
+| 8.2 | Componente `Sidebar.jsx` | Lista del historial agrupada por fecha (Hoy / Ayer / Esta semana / Anterior) con buscador integrado | FrontendDev | ✅ |
+| 8.3 | Componente `SessionItem.jsx` | Ítem de sesión con título del archivo, badge de tipo de material, fecha relativa y botón de eliminar | FrontendDev | ✅ |
+| 8.4 | Búsqueda en sidebar | Filtrar sesiones en tiempo real por nombre de archivo al escribir en el campo de búsqueda | FrontendDev | ✅ |
+| 8.5 | Click para cargar sesión | Al seleccionar una sesión, cargar su `output_text` en el ResultViewer y marcarla como activa en sidebar | FrontendDev | ✅ |
+| 8.6 | Eliminar sesión con confirmación | Modal de confirmación antes de llamar a `DELETE /api/sessions/:id`; actualizar lista tras eliminar | FrontendDev | ✅ |
+| 8.7 | Indicador de sesión activa | Resaltar visualmente en el sidebar la sesión actualmente cargada en el área principal | FrontendDev | ✅ |
+| 9.1 | Hook `useGenerate.js` | Custom hook que gestiona el ciclo de generación: inicio, recepción de chunks, cancelación y finalización | FrontendDev | ✅ |
+| 9.2 | Streaming visible en UI | Mostrar los chunks de texto conforme llegan, acumulando el contenido con efecto de escritura progresiva | FrontendDev | ✅ |
+| 9.3 | Indicador de progreso | Mostrar spinner o barra de progreso animada mientras la generación está en curso | FrontendDev | ✅ |
+| 9.4 | Botón cancelar generación | Abortar el fetch en curso con `AbortController`, limpiar el estado y volver a pantalla de configuración | FrontendDev | ✅ |
+| 9.5 | Manejo de errores en UI | Mostrar mensajes de error amigables ante fallos de API, timeout o archivo inválido | FrontendDev | ✅ |
+| 9.6 | Acciones post-generación | Al finalizar, mostrar botones "Descargar DOCX" y "Nueva sesión", y actualizar el historial en sidebar | FrontendDev | ✅ |
 | 10.1 | Prueba E2E con PDF | Verificar flujo completo: subir PDF → seleccionar material → generar → descargar DOCX | QA |
 | 10.2 | Prueba E2E con DOCX | Verificar flujo completo con archivo .docx como entrada | QA |
 | 10.3 | Prueba E2E con DOC | Verificar conversión LibreOffice y flujo completo con archivo .doc como entrada | QA |
