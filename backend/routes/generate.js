@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getDb } from '../database/db.js';
 import { getPrompt } from '../utils/prompts.js';
 import { generateStream } from '../utils/openrouter.js';
+import { generateDocx } from '../scripts/create_docx.js';
 
 const router = Router();
 
@@ -153,6 +154,24 @@ router.post('/', async (req, res) => {
       
       updateSession.run(outputText, sessionId);
       console.log(`✅ Sesión actualizada con contenido: ${sessionId}`);
+      
+      // Task 5.7: Generate DOCX and update SQLite with path
+      try {
+        const docxPath = await generateDocx(outputText, material_type, sessionId);
+        
+        // Update session with DOCX path
+        const updateDocxPath = db.prepare(`
+          UPDATE sessions 
+          SET docx_path = ?, updated_at = datetime('now')
+          WHERE id = ?
+        `);
+        
+        updateDocxPath.run(docxPath, sessionId);
+        console.log(`✅ DOCX generado y guardado: ${docxPath}`);
+      } catch (docxError) {
+        console.error('❌ Error al generar DOCX:', docxError.message);
+        // Continue - the session still has the text, just no DOCX
+      }
       
       // Send completion signal
       res.write(`data: ${JSON.stringify({ done: true, sessionId })}\n\n`);

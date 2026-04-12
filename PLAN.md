@@ -11,7 +11,7 @@
 | 2 | Backend: servidor Express + SQLite | ✅ Completado |
 | 3 | Backend: procesamiento de archivos | ✅ Completado |
 | 4 | Backend: integración OpenRouter (streaming) | ✅ Completado |
-| 5 | Backend: generación de archivos DOCX | 🔄 En progreso (5.1, 5.2 ✅) |
+| 5 | Backend: generación de archivos DOCX | ✅ Completado |
 | 6 | Frontend: estructura base + diseño (estilo Claude AI) | ⬜ Pendiente |
 | 7 | Frontend: componentes principales | ⬜ Pendiente |
 | 8 | Frontend: historial de sesiones (sidebar) | ⬜ Pendiente |
@@ -357,10 +357,10 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 5.1 | Crear `create_docx.js` | Módulo que recibe texto markdown y tipo de material, y genera un archivo `.docx` usando la librería `docx` | Programador | ✅ |
 | 5.2 | Parser markdown → DOCX | Parsear `##`, `**texto**` y `- item` del output de la IA para traducirlos a elementos Heading, Bold y List del DOCX | Programador | ✅ |
 | 5.3 | Formato diferenciado por tipo | Implementar estructura visual específica para cada uno de los 6 tipos de material en el DOCX | Programador | ✅ |
-| 5.4 | Header DOCX con config | Leer `school_name` y `teacher_name` desde la tabla `config` de SQLite e incluirlos en el encabezado del DOCX | ExpertSQL |
+| 5.4 | Header DOCX con config | Leer `school_name` y `teacher_name` desde la tabla `config` de SQLite e incluirlos en el encabezado del DOCX | ExpertSQL | ✅ |
 | 5.5 | Footer DOCX | Agregar footer con número de página automático y fecha de generación en formato legible | Programador | ✅ |
 | 5.6 | Guardar DOCX en storage | Escribir el archivo en `backend/storage/generated/{session_id}.docx` con manejo de errores de escritura | DevOps |
-| 5.7 | Actualizar SQLite con ruta DOCX | Ejecutar UPDATE en la tabla `sessions` para registrar el `docx_path` una vez generado el archivo | ExpertSQL |
+| 5.7 | Actualizar SQLite con ruta DOCX | Ejecutar UPDATE en la tabla `sessions` para registrar el `docx_path` una vez generado el archivo | ExpertSQL | ✅ |
 | 6.1 | Configurar Vite + React + Tailwind | Inicializar proyecto Vite con plugin React, configurar TailwindCSS con PostCSS y autoprefixer | FrontendDev |
 | 6.2 | Variables CSS globales | Definir la paleta de 10 colores en `:root` dentro de `index.css` siguiendo el estilo visual de Claude AI | FrontendDev |
 | 6.3 | Proxy Vite → backend | Configurar en `vite.config.js` que las rutas `/api` se redirijan a `http://localhost:3001` en desarrollo | FrontendDev |
@@ -467,6 +467,7 @@ npm run build
 | 2026-04-09 | — | Decisiones técnicas complementarias agregadas | ✅ |
 | 2026-04-09 | 1-4 | Fases 1-4 completadas (config, servidor, archivos, IA streaming) | ✅ |
 | 2026-04-09 | 5.1-5.2 | Fase 5 iniciada: create_docx.js + parser markdown → DOCX | ✅ |
+| 2026-04-12 | 5.7 | Fase 5 completada: integración DOCX con ruta generate.js | ✅ |
 
 ---
 
