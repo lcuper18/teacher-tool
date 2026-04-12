@@ -13,7 +13,7 @@
 | 4 | Backend: integración OpenRouter (streaming) | ✅ Completado |
 | 5 | Backend: generación de archivos DOCX | ✅ Completado |
 | 6 | Frontend: estructura base + diseño (estilo Claude AI) | ⬜ Pendiente |
-| 7 | Frontend: componentes principales | ⬜ Pendiente |
+| 7 | Frontend: componentes principales | ✅ Completado |
 | 8 | Frontend: historial de sesiones (sidebar) | ⬜ Pendiente |
 | 9 | Frontend: streaming visible al generar | ⬜ Pendiente |
 | 10 | Integración completa + pruebas | ⬜ Pendiente |
@@ -468,6 +468,8 @@ npm run build
 | 2026-04-09 | 1-4 | Fases 1-4 completadas (config, servidor, archivos, IA streaming) | ✅ |
 | 2026-04-09 | 5.1-5.2 | Fase 5 iniciada: create_docx.js + parser markdown → DOCX | ✅ |
 | 2026-04-12 | 5.7 | Fase 5 completada: integración DOCX con ruta generate.js | ✅ |
+| 2026-04-12 | 6 | Fase 6 completada: estructura base Vite + React + Tailwind | ✅ |
+| 2026-04-12 | 7 | Fase 7 completada: componentes principales | ✅ |
 
 ---
 
