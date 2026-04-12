@@ -15,7 +15,7 @@
 | 6 | Frontend: estructura base + diseño (estilo Claude AI) | ⬜ Pendiente |
 | 7 | Frontend: componentes principales | ✅ Completado |
 | 8 | Frontend: historial de sesiones (sidebar) | ✅ Completado |
-| 9 | Frontend: streaming visible al generar | ⬜ Pendiente |
+| 9 | Frontend: streaming visible al generar | ✅ Completado |
 | 10 | Integración completa + pruebas | ⬜ Pendiente |
 
 ---
@@ -471,6 +471,7 @@ npm run build
 | 2026-04-12 | 6 | Fase 6 completada: estructura base Vite + React + Tailwind | ✅ |
 | 2026-04-12 | 7 | Fase 7 completada: componentes principales | ✅ |
 | 2026-04-12 | 8 | Fase 8 completada: historial sesiones (Sidebar) | ✅ |
+| 2026-04-12 | 9 | Fase 9 completada: streaming visible en generar | ✅ |
 
 ---
 
