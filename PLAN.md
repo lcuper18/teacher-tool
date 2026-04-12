@@ -359,7 +359,7 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 5.3 | Formato diferenciado por tipo | Implementar estructura visual específica para cada uno de los 6 tipos de material en el DOCX | Programador | ✅ |
 | 5.4 | Header DOCX con config | Leer `school_name` y `teacher_name` desde la tabla `config` de SQLite e incluirlos en el encabezado del DOCX | ExpertSQL | ✅ |
 | 5.5 | Footer DOCX | Agregar footer con número de página automático y fecha de generación en formato legible | Programador | ✅ |
-| 5.6 | Guardar DOCX en storage | Escribir el archivo en `backend/storage/generated/{session_id}.docx` con manejo de errores de escritura | DevOps |
+| 5.6 | Guardar DOCX en storage | Escribir el archivo en `backend/storage/generated/{session_id}.docx` con manejo de errores de escritura | DevOps | ✅ |
 | 5.7 | Actualizar SQLite con ruta DOCX | Ejecutar UPDATE en la tabla `sessions` para registrar el `docx_path` una vez generado el archivo | ExpertSQL | ✅ |
 | 6.1 | Configurar Vite + React + Tailwind | Inicializar proyecto Vite con plugin React, configurar TailwindCSS con PostCSS y autoprefixer | FrontendDev | ✅ |
 | 6.2 | Variables CSS globales | Definir la paleta de 10 colores en `:root` dentro de `index.css` siguiendo el estilo visual de Claude AI | FrontendDev | ✅ |
@@ -394,8 +394,8 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 10.5 | Pruebas de historial CRUD | Crear sesiones, listarlas, cargarlas al hacer click y eliminarlas; verificar persistencia en SQLite | QA | ✅ |
 | 10.6 | Prueba cambio de modelo | Cambiar entre Claude Sonnet 4.6 y MiniMax 2.7 y verificar que ambos generan correctamente | QA | ✅ |
 | 10.7 | Prueba PDF escaneado | Subir un PDF sin texto seleccionable y verificar que el error llega limpiamente a la UI | QA | ✅ |
-| 10.8 | Crear `README.md` | Documentar requisitos del sistema, pasos de instalación, configuración del `.env` y comandos de arranque | ProjectManager |
-| 10.9 | Script de arranque único | Verificar que `npm run dev` levanta backend y frontend en paralelo y ambos están operativos | DevOps |
+| 10.8 | Crear `README.md` | Documentar requisitos del sistema, pasos de instalación, configuración del `.env` y comandos de arranque | ProjectManager | ✅ |
+| 10.9 | Script de arranque único | Verificar que `npm run dev` levanta backend y frontend en paralelo y ambos están operativos | DevOps | ✅ |
 
 ---
 
