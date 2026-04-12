@@ -15,6 +15,7 @@ Herramienta web local para docentes de secundaria que genera materiales de estud
 | 5 | Backend: generación de archivos DOCX | ✅ Completado |
 | 6 | Frontend: estructura base + diseño | ✅ Completado |
 | 7 | Frontend: componentes principales | ✅ Completado |
+| 8 | Frontend: historial de sesiones (sidebar) | ✅ Completado |
 | 8 | Frontend: historial de sesiones (sidebar) | ⬜ Pendiente |
 | 9 | Frontend: streaming visible al generar | ⬜ Pendiente |
 | 10 | Integración completa + pruebas | ⬜ Pendiente |
