@@ -347,7 +347,7 @@ function createStyledTable(rows) {
         return null;
       }).filter(Boolean);
       
-      const cell shading = rowIndex === 0 ? { fill: 'e6e6e6' } : { fill: 'ffffff' };
+      const cellShading = rowIndex === 0 ? { fill: 'e6e6e6' } : { fill: 'ffffff' };
       
       return new TableCell({
         children: [
@@ -356,7 +356,7 @@ function createStyledTable(rows) {
             spacing: { after: 60 }
           })
         ],
-        shading: shading,
+        shading: cellShading,
         borders: {
           top: { style: BorderStyle.SINGLE, size: 8, color: 'cccccc' },
           bottom: { style: BorderStyle.SINGLE, size: 8, color: 'cccccc' },
