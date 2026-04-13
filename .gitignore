@@ -81,3 +81,6 @@ logs/
 # TEST FILES
 # ============================================
 test-files/
+# Process ID files
+.backend.pid
+.frontend.pid
