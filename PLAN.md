@@ -12,11 +12,12 @@
 | 3 | Backend: procesamiento de archivos | ✅ Completado |
 | 4 | Backend: integración OpenRouter (streaming) | ✅ Completado |
 | 5 | Backend: generación de archivos DOCX | ✅ Completado |
-| 6 | Frontend: estructura base + diseño (estilo Claude AI) | ⬜ Pendiente |
+| 6 | Frontend: estructura base + diseño (estilo Claude AI) | ✅ Completado |
 | 7 | Frontend: componentes principales | ✅ Completado |
 | 8 | Frontend: historial de sesiones (sidebar) | ✅ Completado |
 | 9 | Frontend: streaming visible al generar | ✅ Completado |
 | 10 | Integración completa + pruebas | ✅ Completado |
+| 11 | Indicador de progreso + mensajes de estado | ⬜ Pendiente |
 
 ---
 
@@ -396,10 +397,88 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 10.7 | Prueba PDF escaneado | Subir un PDF sin texto seleccionable y verificar que el error llega limpiamente a la UI | QA | ✅ |
 | 10.8 | Crear `README.md` | Documentar requisitos del sistema, pasos de instalación, configuración del `.env` y comandos de arranque | ProjectManager | ✅ |
 | 10.9 | Script de arranque único | Verificar que `npm run dev` levanta backend y frontend en paralelo y ambos están operativos | DevOps | ✅ |
+| 11.1 | Eventos SSE de progreso en backend | Agregar evento `progress` al stream SSE en `generate.js` con tipo, porcentaje y mensaje de estado | Programador | ⬜ |
+| 11.2 | Mensajes de estado dinámicos | Crear mapa de mensajes por etapa: 0-10% Analizando, 30-50% Generando, 70-90% Finalizando, etc. | Programador | ⬜ |
+| 11.3 | Componente `ProgressBar.jsx` | Crear componente visual con barra de progreso animada, porcentaje y mensaje de estado | FrontendDev | ⬜ |
+| 11.4 | Integrar ProgressBar en App.jsx | Conectar eventos SSE de progreso al componente ProgressBar durante la generación | FrontendDev | ⬜ |
+| 11.5 | Animación de "pensando" pre-generación | Mostrar pulso/spinner antes de recibir el primer chunk (latencia inicial del modelo) | FrontendDev | ⬜ |
+| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con Claude, MiniMax, Gemma, Qwen y Granite | QA | ⬜ |
 
 ---
 
-## Decisiones técnicas registradas
+## Fase 11 — Indicador de progreso + mensajes de estado
+
+### Objetivo
+Proporcionar al usuario retroalimentación visual en tiempo real durante la generación de materiales, mostrando una barra de progreso animada y mensajes de estado descriptivos que indiquen en qué etapa del proceso se encuentra el modelo.
+
+### Contexto técnico
+
+El backend ya usa **SSE (Server-Sent Events)** para enviar chunks de texto al frontend. La estrategia consiste en agregar un nuevo tipo de evento `progress` al stream SSE, paralelo al evento `content` existente.
+
+```
+Stream SSE actual:
+  data: {"content": "## Guía..."}  →  frontend acumula texto
+
+Stream SSE propuesto:
+  data: {"type": "progress", "progress": 25, "message": "Generando estructura..."}
+  data: {"type": "content", "content": "## Guía..."}
+  data: {"type": "done", "sessionId": "xxx"}
+```
+
+### Estimación de progreso
+
+El porcentaje se estima en base a **chunks recibidos vs estimado** según tipo de material:
+
+| Tipo de material | Tokens estimados | Porcentaje por chunk |
+|-----------------|-----------------|----------------------|
+| Guía de Estudio | ~1500 tokens | 0.07% por chunk |
+| Ejercicios | ~1200 tokens | 0.08% por chunk |
+| Plan de Clase | ~1000 tokens | 0.10% por chunk |
+| Niveles | ~1800 tokens | 0.05% por chunk |
+| Mapa Conceptual | ~800 tokens | 0.12% por chunk |
+| Glosario | ~700 tokens | 0.14% por chunk |
+
+### Mensajes de estado por etapa
+
+| Progreso | Mensaje |
+|----------|---------|
+| 0% | Conectando con el modelo... |
+| 1-10% | Analizando contenido del documento... |
+| 10-30% | Identificando conceptos clave... |
+| 30-50% | Generando estructura del material... |
+| 50-70% | Creando contenido y ejemplos... |
+| 70-90% | Finalizando el material... |
+| 90-99% | Generando documento DOCX... |
+| 100% | ¡Material generado con éxito! |
+
+### Tareas
+
+| ID | Tarea | Descripción | Archivos | Encargado | Estado |
+|----|-------|-------------|---------|----------|--------|
+| 11.1 | Eventos SSE de progreso | Agregar evento `progress` al stream SSE en `generate.js` con tipo, porcentaje y mensaje | `backend/routes/generate.js` | Programador | ⬜ |
+| 11.2 | Mensajes de estado dinámicos | Crear mapa de mensajes por etapa y función que calcule porcentaje según chunks recibidos | `backend/routes/generate.js` | Programador | ⬜ |
+| 11.3 | Componente `ProgressBar.jsx` | Crear componente visual con barra animada, porcentaje numérico y mensaje de estado | `frontend/src/components/ProgressBar.jsx` | FrontendDev | ⬜ |
+| 11.4 | Integrar ProgressBar en App.jsx | Conectar eventos `progress` del SSE al estado del componente ProgressBar | `frontend/src/App.jsx` | FrontendDev | ⬜ |
+| 11.5 | Animación pre-generación | Mostrar pulso/spinner antes del primer chunk (latencia inicial del modelo) | `frontend/src/App.jsx` | FrontendDev | ⬜ |
+| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con Claude, MiniMax, Gemma, Qwen y Granite | — | QA | ⬜ |
+
+### Diseño visual propuesto
+
+```
+┌────────────────────────────────────────────────────────────┐
+│                                                            │
+│   🤖  Generando material con Claude Sonnet 4.6            │
+│                                                            │
+│   Identificando conceptos clave...                         │
+│                                                            │
+│   ████████████████░░░░░░░░░░░░░░░░░░░░░  42%              │
+│                                                            │
+│                              [ Cancelar ]                  │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
 
 | Decisión | Elección | Motivo |
 |----------|----------|--------|
@@ -473,6 +552,7 @@ npm run build
 | 2026-04-12 | 8 | Fase 8 completada: historial sesiones (Sidebar) | ✅ |
 | 2026-04-12 | 9 | Fase 9 completada: streaming visible en generar | ✅ |
 | 2026-04-12 | 10 | Fase 10 completada: pruebas E2E (10.1-10.7) | ✅ |
+| 2026-04-12 | 11 | Fase 11 agregada: indicador de progreso + mensajes de estado | ⬜ |
 
 ---
 
