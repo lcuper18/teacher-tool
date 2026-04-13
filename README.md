@@ -68,9 +68,14 @@ LIBREOFFICE_PATH=/usr/bin/libreoffice
 El proyecto usa **OpenRouter** como proxy para modelos de IA. Puedes obtener una API key en:
 https://openrouter.ai/
 
-Modelos disponibles:
-- **Claude Sonnet 4.6** (predeterminado)
-- **MiniMax 2.7** (alternativo)
+#### Modelos disponibles en la nube:
+- **DeepSeek V3.2** (predeterminado) - `deepseek/deepseek-v3.2`
+- **MiniMax 2.7** (alternativo) - `minimax/minimax-01`
+
+#### Modelos locales (Ollama):
+- **Gemma 3 (1B)** - `ollama/gemma3:1b` (815 MB)
+- **Qwen 3.5 (2B)** - `ollama/qwen3.5:2b` (2.7 GB)
+- **Granite 4 (3B)** - `ollama/granite4:3b` (2.1 GB)
 
 ---
 
@@ -85,6 +90,57 @@ Este comando instala:
 - Dependencias del backend (`backend/package.json`)
 - Dependencias del frontend (`frontend/package.json`)
 - Dependencias Python (`pdfplumber`, `pypdf`, `python-docx`)
+
+---
+
+## Modelos Locales con Ollama
+
+El sistema soporta modelos locales mediante **Ollama**, permitiendo generar materiales sin dependencia de APIs externas.
+
+### Instalación de Ollama
+
+```bash
+# Instalar Ollama (Linux/macOS)
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Instalar Ollama (Windows)
+# Descargar desde: https://ollama.ai/download
+```
+
+### Descargar modelos disponibles
+
+```bash
+# Modelos soportados por Teacher Tool
+ollama pull gemma3:1b      # 815 MB
+ollama pull qwen3.5:2b     # 2.7 GB  
+ollama pull granite4:3b    # 2.1 GB
+```
+
+### Iniciar servicio Ollama
+
+```bash
+# Iniciar servicio en segundo plano
+ollama serve
+
+# Verificar modelos instalados
+ollama list
+```
+
+### Uso en Teacher Tool
+
+1. Asegúrate que Ollama esté corriendo (`ollama serve`)
+2. Abre Teacher Tool en el navegador
+3. En el selector de modelos (header), selecciona "Local"
+4. Elige entre Gemma 3, Qwen 3.5 o Granite 4
+5. ¡Genera materiales sin conexión a internet!
+
+### Endpoint de salud
+
+El sistema incluye un endpoint de salud que verifica el estado de Ollama:
+```
+GET /api/health
+```
+Respuesta incluye: `{ "ollama": { "status": "ok", "message": "3 modelos disponibles" } }`
 
 ---
 
@@ -171,6 +227,7 @@ teacher-tool/
 │   │   └── settings.js     # GET/PUT /api/settings
 │   ├── utils/
 │   │   ├── openrouter.js   # Cliente OpenRouter + SSE
+│   │   ├── ollama.js       # Cliente Ollama (modelos locales)
 │   │   ├── prompts.js     # Prompts por tipo de material
 │   │   └── fileProcessor.js # Orchestration de extracción
 │   ├── scripts/
@@ -223,6 +280,7 @@ teacher-tool/
 | `DELETE` | `/api/sessions/:id` | Elimina sesión |
 | `GET` | `/api/settings` | Lee configuración global |
 | `PUT` | `/api/settings` | Actualiza configuración global |
+| `GET` | `/api/health` | Verifica estado del sistema (DB, OpenRouter, Ollama) |
 
 ---
 
@@ -232,7 +290,8 @@ teacher-tool/
 |------|-----------|
 | Backend | Express, SQLite (better-sqlite3), Node.js |
 | Frontend | React, Vite, TailwindCSS, react-markdown |
-| IA | OpenRouter (Claude Sonnet 4.6 / MiniMax 2.7) |
+| IA Cloud | OpenRouter (DeepSeek V3.2 / MiniMax 2.7) |
+| IA Local | Ollama (Gemma 3 / Qwen 3.5 / Granite 4) |
 | Extracción texto | Python (pdfplumber, python-docx) |
 | DOCX | Librería `docx` (npm) |
 

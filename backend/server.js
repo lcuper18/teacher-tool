@@ -105,10 +105,11 @@ const startServer = async () => {
     await initDatabase();
     console.log('✅ Base de datos inicializada');
     
-    app.listen(PORT, () => {
-      console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
-      console.log(`📁 Storage: ${path.join(__dirname, 'storage')}`);
-    });
+     app.listen(PORT, () => {
+       console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+       console.log(`📁 Storage: ${path.join(__dirname, 'storage')}`);
+       console.log('✅ Socket bound, server listening');
+     });
   } catch (error) {
     console.error('❌ Error al iniciar el servidor:', error);
     process.exit(1);

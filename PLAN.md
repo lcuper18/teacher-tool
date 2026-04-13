@@ -1,5 +1,5 @@
 # Teacher Tool — Plan de Desarrollo
-> Herramienta web local para docentes de secundaria que genera materiales de estudio a partir de documentos PDF/DOC/DOCX usando IA (Claude Sonnet 4.6 / MiniMax 2.7 via OpenRouter).
+> Herramienta web local para docentes de secundaria que genera materiales de estudio a partir de documentos PDF/DOC/DOCX usando IA (DeepSeek V3.2 / MiniMax 2.7 via OpenRouter + modelos locales Ollama).
 
 ---
 
@@ -12,7 +12,7 @@
 | 3 | Backend: procesamiento de archivos | ✅ Completado |
 | 4 | Backend: integración OpenRouter (streaming) | ✅ Completado |
 | 5 | Backend: generación de archivos DOCX | ✅ Completado |
-| 6 | Frontend: estructura base + diseño (estilo Claude AI) | ✅ Completado |
+| 6 | Frontend: estructura base + diseño (estilo moderno) | ✅ Completado |
 | 7 | Frontend: componentes principales | ✅ Completado |
 | 8 | Frontend: historial de sesiones (sidebar) | ✅ Completado |
 | 9 | Frontend: streaming visible al generar | ✅ Completado |
@@ -217,12 +217,12 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 
 ### Tareas
 - [ ] 6.1 Configurar Vite + React + TailwindCSS
-- [ ] 6.2 Definir variables CSS globales (paleta de colores estilo Claude AI)
+- [ ] 6.2 Definir variables CSS globales (paleta de colores estilo moderno)
 - [ ] 6.3 Configurar proxy en `vite.config.js` (`/api` → `localhost:3001`)
 - [ ] 6.4 Crear `src/index.css` con estilos base
 - [ ] 6.5 Crear layout principal en `App.jsx` (sidebar + main area)
 
-### Paleta de colores (estilo Claude AI)
+### Paleta de colores (estilo moderno)
 
 | Variable CSS | Valor | Uso |
 |---|---|---|
@@ -363,7 +363,7 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 5.6 | Guardar DOCX en storage | Escribir el archivo en `backend/storage/generated/{session_id}.docx` con manejo de errores de escritura | DevOps | ✅ |
 | 5.7 | Actualizar SQLite con ruta DOCX | Ejecutar UPDATE en la tabla `sessions` para registrar el `docx_path` una vez generado el archivo | ExpertSQL | ✅ |
 | 6.1 | Configurar Vite + React + Tailwind | Inicializar proyecto Vite con plugin React, configurar TailwindCSS con PostCSS y autoprefixer | FrontendDev | ✅ |
-| 6.2 | Variables CSS globales | Definir la paleta de 10 colores en `:root` dentro de `index.css` siguiendo el estilo visual de Claude AI | FrontendDev | ✅ |
+| 6.2 | Variables CSS globales | Definir la paleta de 10 colores en `:root` dentro de `index.css` siguiendo el estilo visual moderno | FrontendDev | ✅ |
 | 6.3 | Proxy Vite → backend | Configurar en `vite.config.js` que las rutas `/api` se redirijan a `http://localhost:3001` en desarrollo | FrontendDev | ✅ |
 | 6.4 | Estilos base `index.css` | Definir reset, tipografía base, scrollbar personalizado y clases utilitarias globales | FrontendDev | ✅ |
 | 6.5 | Layout principal `App.jsx` | Implementar la estructura sidebar fijo (260px) + área principal flexible con sus estados de pantalla | FrontendDev | ✅ |
@@ -393,7 +393,7 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 10.3 | Prueba E2E con DOC | Verificar conversión LibreOffice y flujo completo con archivo .doc como entrada | QA | ✅ |
 | 10.4 | Verificar DOCX generado | Abrir el DOCX resultante en LibreOffice y validar formato, header, footer y contenido estructurado | QA | ✅ |
 | 10.5 | Pruebas de historial CRUD | Crear sesiones, listarlas, cargarlas al hacer click y eliminarlas; verificar persistencia en SQLite | QA | ✅ |
-| 10.6 | Prueba cambio de modelo | Cambiar entre Claude Sonnet 4.6 y MiniMax 2.7 y verificar que ambos generan correctamente | QA | ✅ |
+| 10.6 | Prueba cambio de modelo | Cambiar entre DeepSeek V3.2 y MiniMax 2.7 y verificar que ambos generan correctamente | QA | ✅ |
 | 10.7 | Prueba PDF escaneado | Subir un PDF sin texto seleccionable y verificar que el error llega limpiamente a la UI | QA | ✅ |
 | 10.8 | Crear `README.md` | Documentar requisitos del sistema, pasos de instalación, configuración del `.env` y comandos de arranque | ProjectManager | ✅ |
 | 10.9 | Script de arranque único | Verificar que `npm run dev` levanta backend y frontend en paralelo y ambos están operativos | DevOps | ✅ |
@@ -402,7 +402,7 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 11.3 | Componente `ProgressBar.jsx` | Crear componente visual con barra de progreso animada, porcentaje y mensaje de estado | FrontendDev | ⬜ |
 | 11.4 | Integrar ProgressBar en App.jsx | Conectar eventos SSE de progreso al componente ProgressBar durante la generación | FrontendDev | ⬜ |
 | 11.5 | Animación de "pensando" pre-generación | Mostrar pulso/spinner antes de recibir el primer chunk (latencia inicial del modelo) | FrontendDev | ⬜ |
-| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con Claude, MiniMax, Gemma, Qwen y Granite | QA | ⬜ |
+| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con DeepSeek, MiniMax, Gemma, Qwen y Granite | QA | ⬜ |
 
 ---
 
@@ -460,14 +460,14 @@ El porcentaje se estima en base a **chunks recibidos vs estimado** según tipo d
 | 11.3 | Componente `ProgressBar.jsx` | Crear componente visual con barra animada, porcentaje numérico y mensaje de estado | `frontend/src/components/ProgressBar.jsx` | FrontendDev | ✅ |
 | 11.4 | Integrar ProgressBar en App.jsx | Conectar eventos `progress` del SSE al estado del componente ProgressBar | `frontend/src/App.jsx` | FrontendDev | ✅ |
 | 11.5 | Animación pre-generación | Mostrar pulso/spinner antes del primer chunk (latencia inicial del modelo) | `frontend/src/App.jsx` | FrontendDev | ✅ |
-| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con Claude, MiniMax, Gemma, Qwen y Granite | — | QA | ✅ |
+| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con DeepSeek, MiniMax, Gemma, Qwen y Granite | — | QA | ✅ |
 
 ### Diseño visual propuesto
 
 ```
 ┌────────────────────────────────────────────────────────────┐
 │                                                            │
-│   🤖  Generando material con Claude Sonnet 4.6            │
+│   🤖  Generando material con DeepSeek V3.2            │
 │                                                            │
 │   Identificando conceptos clave...                         │
 │                                                            │
@@ -496,7 +496,7 @@ El porcentaje se estima en base a **chunks recibidos vs estimado** según tipo d
 | Paginación historial | Offset-based, page size 20 | Simple de implementar con SQLite LIMIT/OFFSET |
 | Cancelación de generación | Sesión descartada (no se guarda) | Evita sesiones parciales o corruptas en el historial |
 | PDFs sin texto | Error descriptivo al usuario | Guía al docente a usar un PDF con texto seleccionable |
-| API IA | OpenRouter | Permite usar Claude y MiniMax con una sola key |
+| API IA | OpenRouter | Permite usar DeepSeek y MiniMax con una sola key |
 | Puerto backend | 3001 | No conflicto con otros servicios |
 | Puerto frontend | 5173 | Default de Vite |
 
@@ -560,7 +560,8 @@ npm run build
 
 - El nivel educativo de los alumnos es **secundaria** — todos los prompts deben ajustarse a este nivel.
 - El modelo predeterminado es **DeepSeek V3.2** (`deepseek/deepseek-v3.2`).
-- MiniMax 2.7 está disponible como alternativa seleccionable desde la interfaz.
+- MiniMax 2.7 está disponible como alternativa en la nube.
+- **Modelos locales Ollama:** Gemma 3 (1B), Qwen 3.5 (2B), Granite 4 (3B) disponibles si Ollama está instalado.
 - LibreOffice 24.2.7.2 está instalado en `/usr/bin/libreoffice`.
 - Python 3.12.3 y Node.js 24.9.0 disponibles en el sistema.
 - La `OPENROUTER_API_KEY` ya está configurada como variable de entorno del sistema.
