@@ -6,17 +6,30 @@ import MaterialSelector from './components/MaterialSelector.jsx';
 import ExtraInstructions from './components/ExtraInstructions.jsx';
 import ResultViewer from './components/ResultViewer.jsx';
 import DownloadButton from './components/DownloadButton.jsx';
+import ProgressBar from './components/ProgressBar.jsx';
 import Button from './components/ui/Button.jsx';
 import Spinner from './components/ui/Spinner.jsx';
 
 const API_BASE = '/api';
+
+// Helper to get display name from model ID
+function getModelDisplayName(modelId) {
+  const modelNames = {
+    'deepseek/deepseek-v3.2': 'DeepSeek V3.2',
+    'minimax/minimax-01': 'MiniMax 2.7',
+    'ollama/gemma3:1b': 'Gemma 3 (1B)',
+    'ollama/qwen3.5:2b': 'Qwen 3.5 (2B)',
+    'ollama/granite4:3b': 'Granite 4 (3B)'
+  };
+  return modelNames[modelId] || modelId.split('/').pop();
+}
 
 function App() {
   // App states
   const [appState, setAppState] = useState('empty'); // empty, file-loaded, generating, completed
   const [sessions, setSessions] = useState([]);
   const [selectedSession, setSelectedSession] = useState(null);
-  const [currentModel, setCurrentModel] = useState('anthropic/claude-sonnet-4-6');
+  const [currentModel, setCurrentModel] = useState('deepseek/deepseek-v3.2');
   
   // File upload state
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -32,6 +45,7 @@ function App() {
   const [generatedContent, setGeneratedContent] = useState('');
   const [generating, setGenerating] = useState(false);
   const [generationError, setGenerationError] = useState(null);
+  const [generationProgress, setGenerationProgress] = useState({ progress: 0, message: '' });
   
   // Load sessions on mount
   useEffect(() => {
@@ -49,6 +63,7 @@ function App() {
     setGeneratedContent('');
     setUploadError(null);
     setGenerationError(null);
+    setGenerationProgress({ progress: 0, message: '' });
   };
   
   // Handle session selection from sidebar
@@ -59,6 +74,33 @@ function App() {
     setExtractedText(session.input_text || '');
     // Set default material type
     setSelectedMaterial(session.material_type);
+  };
+  
+  // Handle delete session
+  const handleDeleteSession = async (sessionId) => {
+    try {
+      const res = await fetch(`${API_BASE}/sessions/${sessionId}`, {
+        method: 'DELETE'
+      });
+      
+      if (!res.ok) {
+        throw new Error('Error al eliminar sesión');
+      }
+      
+      // If the deleted session was selected, reset the view
+      if (selectedSession?.id === sessionId) {
+        setSelectedSession(null);
+        setAppState('empty');
+        setGeneratedContent('');
+        setExtractedText('');
+        setSelectedMaterial(null);
+      }
+      
+      // Refresh the session list
+      loadSessions();
+    } catch (error) {
+      console.error('Error deleting session:', error);
+    }
   };
   
   // Load sessions from API
@@ -112,6 +154,7 @@ function App() {
     setGenerationError(null);
     setGeneratedContent('');
     setAppState('generating');
+    setGenerationProgress({ progress: 0, message: 'Conectando con el modelo...' });
     
     try {
       const response = await fetch(`${API_BASE}/generate`, {
@@ -139,6 +182,7 @@ function App() {
         for (const line of lines) {
           if (line.startsWith('data: ')) {
             const data = line.slice(6);
+            console.log('📡 Frontend recibió:', data.substring(0, 100));
             
             try {
               const parsed = JSON.parse(data);
@@ -147,14 +191,27 @@ function App() {
                 throw new Error(parsed.error);
               }
               
+              // Handle progress events
+              if (parsed.type === 'progress') {
+                console.log('📊 Progreso:', parsed.progress, parsed.message);
+                setGenerationProgress({
+                  progress: parsed.progress,
+                  message: parsed.message
+                });
+              }
+              
+              // Handle content events
               if (parsed.content) {
                 setGeneratedContent(prev => prev + parsed.content);
               }
               
+              // Handle completion
               if (parsed.done) {
+                console.log('✅ Completado:', parsed.sessionId);
                 setAppState('completed');
                 setSelectedSession(parsed.sessionId);
                 loadSessions(); // Refresh session list
+                setGenerationProgress({ progress: 100, message: '¡Material generado con éxito!' });
               }
             } catch {
               // Skip non-JSON lines
@@ -165,6 +222,7 @@ function App() {
     } catch (error) {
       setGenerationError(error.message);
       setAppState('file-loaded');
+      setGenerationProgress({ progress: 0, message: '' });
     } finally {
       setGenerating(false);
     }
@@ -174,6 +232,7 @@ function App() {
   const handleCancel = () => {
     setAppState('file-loaded');
     setGeneratedContent('');
+    setGenerationProgress({ progress: 0, message: '' });
   };
   
   // Render main area content based on state
@@ -206,20 +265,17 @@ function App() {
       return (
         <div className="flex flex-col h-full">
           <div className="flex-1 overflow-auto p-6">
-            <div className="bg-bg-card rounded-lg p-6">
-              <Spinner size="medium" />
-              <span className="ml-3 text-text-secondary">Generando material...</span>
-            </div>
+            <ProgressBar
+              progress={generationProgress.progress}
+              message={generationProgress.message}
+              model={getModelDisplayName(currentModel)}
+              onCancel={handleCancel}
+            />
             {generatedContent && (
               <div className="mt-4 prose prose-invert max-w-none">
                 <pre className="whitespace-pre-wrap text-text-primary">{generatedContent}</pre>
               </div>
             )}
-          </div>
-          <div className="p-4 border-t border-border">
-            <Button variant="secondary" onClick={handleCancel}>
-              Cancelar
-            </Button>
           </div>
         </div>
       );
@@ -279,6 +335,7 @@ function App() {
           sessions={sessions}
           selectedId={selectedSession}
           onSelectSession={handleSessionSelect}
+          onDeleteSession={handleDeleteSession}
           onRefresh={loadSessions}
         />
         

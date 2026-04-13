@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
     
     const getSessions = db.prepare(`
       SELECT id, title, model, material_type, extra_instructions, 
-             input_filename, created_at, updated_at
+             input_filename, output_text, docx_path, created_at, updated_at
       FROM sessions 
       ORDER BY created_at DESC
       LIMIT ? OFFSET ?
@@ -71,28 +71,40 @@ router.get('/:id', (req, res) => {
 
 // GET /api/sessions/:id/download - Download generated DOCX
 router.get('/:id/download', (req, res) => {
+  const sessionId = req.params.id;
+  console.log('📥 Solicitud de descarga:', sessionId, 'length:', sessionId.length);
   try {
     const db = getDb();
-    const { id } = req.params;
+    
+    // First, let's see what sessions exist
+    const allSessions = db.prepare('SELECT id, docx_path FROM sessions LIMIT 5').all();
+    console.log('📋 Sesiones en DB:', JSON.stringify(allSessions.map(s => ({id: s.id, docx_path: s.docx_path}))));
     
     const getDocxPath = db.prepare('SELECT docx_path, title FROM sessions WHERE id = ?');
-    const session = getDocxPath.get(id);
+    const session = getDocxPath.get(sessionId);
+    
+    console.log('📄 Resultados query:', session);
+    console.log('📄 Ruta DOCX en DB:', session?.docx_path);
     
     if (!session) {
+      console.log('❌ Sesión no encontrada:', sessionId);
       return res.status(404).json({ error: 'Sesión no encontrada' });
     }
     
     if (!session.docx_path) {
+      console.log('❌ DOCX no disponible para:', sessionId);
       return res.status(404).json({ error: 'DOCX no disponible' });
     }
     
     // Check if file exists
     if (!fs.existsSync(session.docx_path)) {
+      console.log('❌ Archivo no encontrado:', session.docx_path);
       return res.status(404).json({ error: 'Archivo no encontrado' });
     }
     
     // Send file
-    const filename = `material_${id}.docx`;
+    const filename = `material_${sessionId}.docx`;
+    console.log('✅ Enviando archivo:', session.docx_path);
     res.download(session.docx_path, filename);
   } catch (error) {
     console.error('Error downloading DOCX:', error);

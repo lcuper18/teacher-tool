@@ -17,7 +17,7 @@
 | 8 | Frontend: historial de sesiones (sidebar) | ✅ Completado |
 | 9 | Frontend: streaming visible al generar | ✅ Completado |
 | 10 | Integración completa + pruebas | ✅ Completado |
-| 11 | Indicador de progreso + mensajes de estado | ⬜ Pendiente |
+| 11 | Indicador de progreso + mensajes de estado | ✅ Completado |
 
 ---
 
@@ -161,7 +161,7 @@ Archivo recibido (multer)
 
 | Nombre visible | ID OpenRouter | Estado |
 |----------------|---------------|--------|
-| Claude Sonnet 4.6 | `anthropic/claude-sonnet-4-6` | ✅ Activo |
+| DeepSeek V3.2 | `deepseek/deepseek-v3.2` | ✅ Activo |
 | MiniMax 2.7 | `minimax/minimax-01` | ✅ Disponible |
 
 ### Configuración OpenRouter
@@ -455,12 +455,12 @@ El porcentaje se estima en base a **chunks recibidos vs estimado** según tipo d
 
 | ID | Tarea | Descripción | Archivos | Encargado | Estado |
 |----|-------|-------------|---------|----------|--------|
-| 11.1 | Eventos SSE de progreso | Agregar evento `progress` al stream SSE en `generate.js` con tipo, porcentaje y mensaje | `backend/routes/generate.js` | Programador | ⬜ |
-| 11.2 | Mensajes de estado dinámicos | Crear mapa de mensajes por etapa y función que calcule porcentaje según chunks recibidos | `backend/routes/generate.js` | Programador | ⬜ |
-| 11.3 | Componente `ProgressBar.jsx` | Crear componente visual con barra animada, porcentaje numérico y mensaje de estado | `frontend/src/components/ProgressBar.jsx` | FrontendDev | ⬜ |
-| 11.4 | Integrar ProgressBar en App.jsx | Conectar eventos `progress` del SSE al estado del componente ProgressBar | `frontend/src/App.jsx` | FrontendDev | ⬜ |
-| 11.5 | Animación pre-generación | Mostrar pulso/spinner antes del primer chunk (latencia inicial del modelo) | `frontend/src/App.jsx` | FrontendDev | ⬜ |
-| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con Claude, MiniMax, Gemma, Qwen y Granite | — | QA | ⬜ |
+| 11.1 | Eventos SSE de progreso | Agregar evento `progress` al stream SSE en `generate.js` con tipo, porcentaje y mensaje | `backend/routes/generate.js` | Programador | ✅ |
+| 11.2 | Mensajes de estado dinámicos | Crear mapa de mensajes por etapa y función que calcule porcentaje según chunks recibidos | `backend/routes/generate.js` | Programador | ✅ |
+| 11.3 | Componente `ProgressBar.jsx` | Crear componente visual con barra animada, porcentaje numérico y mensaje de estado | `frontend/src/components/ProgressBar.jsx` | FrontendDev | ✅ |
+| 11.4 | Integrar ProgressBar en App.jsx | Conectar eventos `progress` del SSE al estado del componente ProgressBar | `frontend/src/App.jsx` | FrontendDev | ✅ |
+| 11.5 | Animación pre-generación | Mostrar pulso/spinner antes del primer chunk (latencia inicial del modelo) | `frontend/src/App.jsx` | FrontendDev | ✅ |
+| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con Claude, MiniMax, Gemma, Qwen y Granite | — | QA | ✅ |
 
 ### Diseño visual propuesto
 
@@ -552,14 +552,14 @@ npm run build
 | 2026-04-12 | 8 | Fase 8 completada: historial sesiones (Sidebar) | ✅ |
 | 2026-04-12 | 9 | Fase 9 completada: streaming visible en generar | ✅ |
 | 2026-04-12 | 10 | Fase 10 completada: pruebas E2E (10.1-10.7) | ✅ |
-| 2026-04-12 | 11 | Fase 11 agregada: indicador de progreso + mensajes de estado | ⬜ |
+| 2026-04-12 | 11 | Fase 11 completada: indicador de progreso + mensajes de estado | ✅ |
 
 ---
 
 ## Notas
 
 - El nivel educativo de los alumnos es **secundaria** — todos los prompts deben ajustarse a este nivel.
-- El modelo predeterminado es **Claude Sonnet 4.6** (`anthropic/claude-sonnet-4-6`).
+- El modelo predeterminado es **DeepSeek V3.2** (`deepseek/deepseek-v3.2`).
 - MiniMax 2.7 está disponible como alternativa seleccionable desde la interfaz.
 - LibreOffice 24.2.7.2 está instalado en `/usr/bin/libreoffice`.
 - Python 3.12.3 y Node.js 24.9.0 disponibles en el sistema.

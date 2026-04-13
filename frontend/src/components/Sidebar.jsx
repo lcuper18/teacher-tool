@@ -3,7 +3,7 @@ import { Search, RefreshCw, Clock } from 'lucide-react';
 import SessionItem from './SessionItem.jsx';
 import Spinner from './ui/Spinner.jsx';
 
-function Sidebar({ sessions, selectedId, onSelectSession, onRefresh, loading }) {
+function Sidebar({ sessions, selectedId, onSelectSession, onDeleteSession, onRefresh, loading }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
 
@@ -57,7 +57,7 @@ function Sidebar({ sessions, selectedId, onSelectSession, onRefresh, loading }) 
 
   const confirmDelete = async () => {
     if (showDeleteConfirm) {
-      await onSelectSession(null, showDeleteConfirm.id, true);
+      await onDeleteSession(showDeleteConfirm.id);
       setShowDeleteConfirm(null);
     }
   };

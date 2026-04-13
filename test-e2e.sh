@@ -206,9 +206,9 @@ test_10_5_crud() {
 # TEST 10.6: Prueba cambio de modelo
 # ==========================================
 test_10_6_model_change() {
-  log_info "TEST 10.6: Prueba cambio de modelo (Claude ↔ MiniMax)"
+  log_info "TEST 10.6: Prueba cambio de modelo (DeepSeek ↔ MiniMax)"
   
-  MODELS=("anthropic/claude-sonnet-4-6" "minimax/minimax-01")
+  MODELS=("deepseek/deepseek-v3.2" "minimax/minimax-01")
   
   for MODEL in "${MODELS[@]}"; do
     log_info "Probando modelo: $MODEL"

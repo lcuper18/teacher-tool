@@ -5,14 +5,17 @@ function DownloadButton({ sessionId, className = '' }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Support both string ID and full session object
+  const actualSessionId = typeof sessionId === 'object' ? sessionId?.id : sessionId;
+
   const handleDownload = async () => {
-    if (!sessionId) return;
+    if (!actualSessionId) return;
     
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`/api/sessions/${sessionId}/download`);
+      const response = await fetch(`/api/sessions/${actualSessionId}/download`);
       
       if (!response.ok) {
         throw new Error('Error al descargar el archivo');
@@ -22,7 +25,7 @@ function DownloadButton({ sessionId, className = '' }) {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `material_${sessionId}.docx`;
+      a.download = `material_${actualSessionId}.docx`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
@@ -38,7 +41,7 @@ function DownloadButton({ sessionId, className = '' }) {
     <div className={className}>
       <button
         onClick={handleDownload}
-        disabled={loading || !sessionId}
+        disabled={loading || !actualSessionId}
         className="
           flex items-center gap-2 px-4 py-2 rounded-lg font-medium
           bg-accent hover:bg-accent-hover text-white

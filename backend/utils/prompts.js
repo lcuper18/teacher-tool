@@ -3,7 +3,7 @@
  * Context: Secondary school level (Educación Secundaria)
  */
 
-const DEFAULT_MODEL = 'anthropic/claude-sonnet-4-6';
+const DEFAULT_MODEL = 'deepseek/deepseek-v3.2';
 const ALT_MODEL = 'minimax/minimax-01';
 
 /**

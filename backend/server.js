@@ -34,8 +34,49 @@ app.use('/api/sessions', sessionsRoutes);
 app.use('/api/settings', settingsRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+app.get('/api/health', async (req, res) => {
+  const checks = {
+    server: { status: 'ok', message: 'Servidor corriendo' },
+    database: { status: 'unknown', message: '' },
+    openrouter: { status: 'unknown', message: '' },
+    ollama: { status: 'unknown', message: '' }
+  };
+  
+  // Check database
+  try {
+    const db = await import('./database/db.js');
+    const conn = db.getDb();
+    const result = conn.prepare('SELECT COUNT(*) as count FROM sessions').get();
+    checks.database = { status: 'ok', message: `DB accesible (${result.count} sesiones)` };
+  } catch (err) {
+    checks.database = { status: 'error', message: err.message };
+  }
+  
+  // Check OpenRouter API key
+  if (process.env.OPENROUTER_API_KEY) {
+    checks.openrouter = { status: 'ok', message: 'API key configurada' };
+  } else {
+    checks.openrouter = { status: 'error', message: 'API key no configurada' };
+  }
+  
+  // Check Ollama
+  try {
+    const response = await fetch('http://localhost:11434/api/tags', { signal: AbortSignal.timeout(2000) });
+    if (response.ok) {
+      const data = await response.json();
+      checks.ollama = { status: 'ok', message: `${data.models?.length || 0} modelos disponibles` };
+    } else {
+      checks.ollama = { status: 'error', message: `HTTP ${response.status}` };
+    }
+  } catch {
+    checks.ollama = { status: 'offline', message: 'Ollama no está corriendo' };
+  }
+  
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    checks
+  });
 });
 
 // Error handling middleware

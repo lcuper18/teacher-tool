@@ -36,7 +36,7 @@ export const useGenerate = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: model || 'anthropic/claude-sonnet-4-6',
+          model: model || 'deepseek/deepseek-v3.2',
           material_type: materialType,
           input_text: inputText,
           extra_instructions: extraInstructions || '',
