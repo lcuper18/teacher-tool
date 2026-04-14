@@ -399,12 +399,6 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 10.7 | Prueba PDF escaneado | Subir un PDF sin texto seleccionable y verificar que el error llega limpiamente a la UI | QA | ✅ |
 | 10.8 | Crear `README.md` | Documentar requisitos del sistema, pasos de instalación, configuración del `.env` y comandos de arranque | ProjectManager | ✅ |
 | 10.9 | Script de arranque único | Verificar que `npm run dev` levanta backend y frontend en paralelo y ambos están operativos | DevOps | ✅ |
-| 11.1 | Eventos SSE de progreso en backend | Agregar evento `progress` al stream SSE en `generate.js` con tipo, porcentaje y mensaje de estado | Programador | ⬜ |
-| 11.2 | Mensajes de estado dinámicos | Crear mapa de mensajes por etapa: 0-10% Analizando, 30-50% Generando, 70-90% Finalizando, etc. | Programador | ⬜ |
-| 11.3 | Componente `ProgressBar.jsx` | Crear componente visual con barra de progreso animada, porcentaje y mensaje de estado | FrontendDev | ⬜ |
-| 11.4 | Integrar ProgressBar en App.jsx | Conectar eventos SSE de progreso al componente ProgressBar durante la generación | FrontendDev | ⬜ |
-| 11.5 | Animación de "pensando" pre-generación | Mostrar pulso/spinner antes de recibir el primer chunk (latencia inicial del modelo) | FrontendDev | ⬜ |
-| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con DeepSeek, MiniMax, Gemma, Qwen y Granite | QA | ⬜ |
 
 ---
 
