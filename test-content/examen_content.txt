@@ -1,0 +1,30 @@
+La fotosíntesis es el proceso mediante el cual las plantas convierten la energía luminosa en energía química. 
+Este proceso ocurre en los cloroplastos de las células vegetales. Los principales requisitos son luz solar, 
+dióxido de carbono (CO2) y agua (H2O). Los productos resultantes son glucosa (C6H12O6) y oxígeno (O2).
+
+La ecuación química de la fotosíntesis es:
+6CO2 + 6H2O + energía luminosa → C6H12O6 + 6O2
+
+Existen dos etapas principales en la fotosíntesis:
+1. Fase luminosa: Ocurre en las membranas tilacoidales donde la energía luminosa se convierte en ATP y NADPH.
+2. Fase oscura (Ciclo de Calvin): Ocurre en el estroma del cloroplasto donde el CO2 se fija y se convierte en glucosa.
+
+Los factores que afectan la fotosíntesis incluyen:
+- Intensidad luminosa: A mayor intensidad, mayor tasa de fotosíntesis hasta un punto de saturación.
+- Temperatura: Enzimas del ciclo de Calvin tienen temperatura óptima entre 25-35°C.
+- Concentración de CO2: Mayor concentración aumenta la tasa hasta cierto límite.
+- Disponibilidad de agua: Deficiencias hídricas reducen la fotosíntesis.
+
+La respiración celular es el proceso opuesto a la fotosíntesis. En este proceso, las células breakdown glucosa 
+para liberar energía. La ecuación general es:
+C6H12O6 + 6O2 → 6CO2 + 6H2O + energía (ATP)
+
+La respiración celular ocurre en tres etapas:
+1. Glucólisis: Ocurre en el citoplasma, produce 2 ATP.
+2. Ciclo de Krebs: Ocurre en la matriz mitocondrial, produce 2 ATP.
+3. Cadena de transporte de electrones: Ocurre en la membrana mitocondrial interna, produce 32-34 ATP.
+
+Comparación entre fotosíntesis y respiración celular:
+- Fotosíntesis: Produce glucosa y O2, requiere luz, ocurre en cloroplastos.
+- Respiración: Descompone glucosa, produce CO2 y H2O, no requiere luz, ocurre en mitocondrias.
+- Ambas son procesos complementarios en el ciclo de la materia.
