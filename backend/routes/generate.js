@@ -60,7 +60,7 @@ function sendProgress(res, progress) {
 
 // POST /api/generate - Generate material with SSE streaming
 router.post('/', async (req, res) => {
-  const { model, material_type, input_text, extra_instructions } = req.body;
+  const { model, material_type, input_text, extra_instructions, num_preguntas } = req.body;
 
   // Validate required fields
   if (!material_type) {
@@ -72,17 +72,36 @@ router.post('/', async (req, res) => {
   }
 
   // Validate material_type
-  const validTypes = ['guia', 'ejercicios', 'plan_clase', 'niveles', 'mapa', 'glosario'];
+  const validTypes = ['guia', 'ejercicios', 'plan_clase', 'niveles', 'mapa', 'glosario', 'examen_seleccion'];
   if (!validTypes.includes(material_type)) {
     return res.status(400).json({ 
       error: `Tipo de material inválido. Tipos válidos: ${validTypes.join(', ')}` 
     });
   }
 
+  // Validate num_preguntas if material_type is examen_seleccion
+  if (material_type === 'examen_seleccion') {
+    const num = parseInt(num_preguntas, 10);
+    if (isNaN(num) || num < 5 || num > 50) {
+      return res.status(400).json({ 
+        error: 'El número de preguntas debe ser entre 5 y 50 para exámenes de selección única' 
+      });
+    }
+    
+    // Validate content length - minimum ~100 characters per question
+    const minContentLength = num * 100;
+    if (input_text.length < minContentLength) {
+      return res.status(400).json({ 
+        error: `El documento tiene muy poco contenido (${input_text.length} caracteres). Se necesitan al menos ${minContentLength} caracteres para generar ${num} preguntas.` 
+      });
+    }
+  }
+
   // Get prompt with messages
   let promptData;
   try {
-    promptData = getPrompt(material_type, input_text, extra_instructions || '');
+    const promptOptions = material_type === 'examen_seleccion' ? { numPreguntas: parseInt(num_preguntas, 10) } : {};
+    promptData = getPrompt(material_type, input_text, extra_instructions || '', promptOptions);
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -121,7 +140,8 @@ router.post('/', async (req, res) => {
       plan_clase: 'Plan de Clase',
       niveles: 'Adaptación por Nivel',
       mapa: 'Mapa Conceptual',
-      glosario: 'Glosario'
+      glosario: 'Glosario',
+      examen_seleccion: `Examen (${num_preguntas} preg.)`
     };
     const title = `${materialNames[material_type]} - ${new Date().toLocaleDateString('es-ES')}`;
 

@@ -257,24 +257,66 @@ Organiza los términos en orden alfabético.
 Nivel: Educación secundaria (12-18 años).`;
       return createPrompt(inputText, extraInstructions, base) + '\n' + instructions;
     }
+  },
+
+  /**
+   * Examen de selección única - N preguntas con 3 opciones (a, b, c), solo una correcta
+   */
+  examen_seleccion: {
+    name: 'Examen de Selección Única',
+    prompt: function(inputText, extraInstructions, options = {}) {
+      const numPreguntas = options.numPreguntas || 10;
+      
+      const base = `## Examen de Selección Única
+
+Crea un examen de selección única con **${numPreguntas} preguntas** basado en el siguiente contenido.`;
+      const instructions = `
+Requisitos:
+- **${numPreguntas} preguntas de selección única**
+- **3 opciones por pregunta** (a, b, c) - solo una correcta
+- Las opciones incorrectas deben ser plausibles pero claramente erróneas
+- Las preguntas deben evaluar comprensión, no solo memoria
+- Incluye 2-3 preguntas de aplicación práctica
+- Nivel: educación secundaria (12-18 años)
+
+Formato de salida:
+## Examen de Selección Única
+### Instrucciones: Responde marcando con una X la opción correcta.
+
+### Pregunta 1: [pregunta]
+a) [opción A - incorrecta pero plausible]
+b) [opción B - correcta]
+c) [opción C - incorrecta]
+
+### Pregunta 2: [pregunta]
+...
+
+### Hoja de respuestas (para el profesor):
+1. b
+2. a
+3. c
+...`;
+      return createPrompt(inputText, extraInstructions, base) + '\n' + instructions;
+    }
   }
 };
 
 /**
  * Get prompt for a material type
- * @param {string} materialType - Type of material (guia, ejercicios, plan_clase, niveles, mapa, glosario)
+ * @param {string} materialType - Type of material (guia, ejercicios, plan_clase, niveles, mapa, glosario, examen_seleccion)
  * @param {string} inputText - Extracted text from document
  * @param {string} extraInstructions - Optional user instructions
+ * @param {Object} options - Additional options (e.g., numPreguntas for examen_seleccion)
  * @returns {Object} - { model, messages }
  */
-export function getPrompt(materialType, inputText, extraInstructions = '') {
+export function getPrompt(materialType, inputText, extraInstructions = '', options = {}) {
   const template = PROMPT_TEMPLATES[materialType];
   
   if (!template) {
     throw new Error('Tipo de material desconocido: ' + materialType + '. Tipos válidos: ' + Object.keys(PROMPT_TEMPLATES).join(', '));
   }
 
-  const promptText = template.prompt(inputText.trim(), extraInstructions);
+  const promptText = template.prompt(inputText.trim(), extraInstructions, options);
 
   const messages = [
     {

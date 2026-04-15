@@ -5,7 +5,7 @@
  * Tasks 5.1 + 5.2: Create module + Parser markdown → DOCX
  */
 
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, Table, TableRow, TableCell, WidthType, BorderStyle, AlignmentType } from 'docx';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, Table, TableRow, TableCell, WidthType, BorderStyle, AlignmentType, PageBreak } from 'docx';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -378,6 +378,151 @@ function createStyledTable(rows) {
 }
 
 /**
+ * Parse examen markdown into structured DOCX elements
+ * Special formatting for selection exams with checkboxes
+ * @param {string} markdown - Raw markdown text from AI for examen
+ * @returns {Array} - Array of docx elements
+ */
+function parseExamenMarkdown(markdown) {
+  const lines = markdown.split('\n');
+  const elements = [];
+  
+  let inAnswerSection = false;
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmedLine = line.trim();
+    
+    // Empty line
+    if (!trimmedLine) {
+      elements.push(new Paragraph({ children: [], spacing: { after: 120 } }));
+      continue;
+    }
+    
+    // Detect "Hoja de respuestas" section - create a page break before it
+    if (trimmedLine.includes('Hoja de respuestas') || trimmedLine.includes('hoja de respuestas')) {
+      inAnswerSection = true;
+      
+      // Add a page break before the answer sheet
+      elements.push(new Paragraph({
+        children: [new PageBreak()],
+        spacing: { before: 0, after: 0 }
+      }));
+      
+      // Add "RESPUESTAS" header with separator
+      elements.push(new Paragraph({
+        children: [
+          new TextRun({
+            text: '─'.repeat(40),
+            color: '888888'
+          })
+        ],
+        alignment: AlignmentType.CENTER,
+        spacing: { before: 240, after: 240 }
+      }));
+      
+      elements.push(new Paragraph({
+        children: [
+          new TextRun({
+            text: 'CLAVE DE RESPUESTAS',
+            bold: true,
+            font: 'Arial',
+            size: 28,
+            color: '333333'
+          })
+        ],
+        alignment: AlignmentType.CENTER,
+        spacing: { before: 120, after: 360 }
+      }));
+      continue;
+    }
+    
+    // Skip markdown table separators
+    if (trimmedLine.match(/^[\|:\-]+\|*$/)) {
+      continue;
+    }
+    
+    // Question detection: "### Pregunta N:" or "Pregunta N:"
+    const preguntaMatch = trimmedLine.match(/^#{0,3}\s*Pregunta\s+(\d+)[:\.]?\s*(.*)$/i);
+    if (preguntaMatch) {
+      const questionNum = preguntaMatch[1];
+      const questionText = preguntaMatch[2] || '';
+      
+      // Question header with number
+      elements.push(new Paragraph({
+        children: [
+          new TextRun({
+            text: `Pregunta ${questionNum}:`,
+            bold: true,
+            font: 'Arial',
+            size: 26
+          }),
+          ...(questionText ? [new TextRun({
+            text: ` ${questionText}`,
+            bold: true,
+            font: 'Arial',
+            size: 26
+          })] : [])
+        ],
+        spacing: { before: 240, after: 120 }
+      }));
+      continue;
+    }
+    
+    // Option detection: a), b), c) at start of line
+    const optionMatch = trimmedLine.match(/^([a-c])\)\s*(.*)$/i);
+    if (optionMatch) {
+      const optionLetter = optionMatch[1].toLowerCase();
+      const optionText = optionMatch[2];
+      
+      // Format option with checkbox
+      const checkboxSymbol = inAnswerSection ? '' : '□ '; // □ for student version, nothing for answer sheet
+      
+      elements.push(new Paragraph({
+        children: [
+          new TextRun({
+            text: `${checkboxSymbol}${optionLetter})`,
+            bold: false,
+            font: 'Arial',
+            size: 24
+          }),
+          new TextRun({
+            text: ` ${optionText}`,
+            font: 'Arial',
+            size: 24
+          })
+        ],
+        indent: { left: 720 },
+        spacing: { after: 60 }
+      }));
+      continue;
+    }
+    
+    // Instructions detection: "Instrucciones:"
+    if (trimmedLine.toLowerCase().includes('instruccione')) {
+      elements.push(new Paragraph({
+        children: [
+          new TextRun({
+            text: trimmedLine,
+            bold: true,
+            font: 'Arial',
+            size: 24,
+            color: '444444'
+          })
+        ],
+        spacing: { before: 120, after: 180 }
+      }));
+      continue;
+    }
+    
+    // Regular paragraph with bold support
+    elements.push(createParagraph(trimmedLine));
+  }
+  
+  return elements;
+}
+
+/**
  * Get configuration values (school name, teacher name)
  */
 function getConfig() {
@@ -422,7 +567,10 @@ export async function generateDocx(markdownText, materialType, sessionId) {
   const config = getConfig();
   
   // Parse markdown into elements
-  const elements = parseMarkdown(markdownText);
+  const isExamen = materialType === 'examen_seleccion';
+  const elements = isExamen 
+    ? parseExamenMarkdown(markdownText)
+    : parseMarkdown(markdownText);
   
   // Material type display names
   const materialNames = {
@@ -431,7 +579,8 @@ export async function generateDocx(markdownText, materialType, sessionId) {
     plan_clase: 'Plan de Clase',
     niveles: 'Adaptación por Nivel',
     mapa: 'Mapa Conceptual',
-    glosario: 'Glosario de Términos'
+    glosario: 'Glosario de Términos',
+    examen_seleccion: 'Examen de Selección Única'
   };
   
   const materialName = materialNames[materialType] || 'Material';

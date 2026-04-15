@@ -19,7 +19,7 @@
 | 10 | Integración completa + pruebas | ✅ Completado |
 | 11 | Indicador de progreso + mensajes de estado | ✅ Completado |
 | 12 | Scripts de instalación y ejecución | ✅ Completado |
-| 13 | Examen de selección única (nueva funcionalidad) | ⬜ Pendiente |
+| 13 | Examen de selección única (nueva funcionalidad) | ✅ Completado |
 
 ---
 
@@ -462,25 +462,25 @@ El porcentaje se estima en base a **chunks recibidos vs estimado** según tipo d
 | 12.3 | Agregar scripts al `.gitignore` | Excluir archivos temporales (.pid, logs) del control de versiones | `.gitignore` | ExpertGit | ✅ |
 | 12.4 | Documentar uso de scripts | Agregar sección en README.md sobre instalación y ejecución con scripts | `README.md` | ProjectManager | ✅ |
 | 12.5 | Probar scripts en diferentes entornos | Verificar funcionamiento en Linux, macOS y WSL | — | QA | ✅ |
-| 13.1.1 | Agregar opción en MaterialSelector.jsx | Nueva card para "Examen de Selección Única" con icono CheckSquare, color indigo | `frontend/src/components/MaterialSelector.jsx` | FrontendDev | ⬜ |
-| 13.1.2 | Modificar ExtraInstructions.jsx | Agregar campo numérico para número de preguntas (5-50, default: 10) | `frontend/src/components/ExtraInstructions.jsx` | FrontendDev | ⬜ |
-| 13.1.3 | Actualizar App.jsx | Manejar nuevo materialType 'examen_seleccion' y parámetro numPreguntas | `frontend/src/App.jsx` | FrontendDev | ⬜ |
-| 13.1.4 | Validación frontend | Validar rango 5-50 preguntas en campo numérico | `frontend/src/components/ExtraInstructions.jsx` | FrontendDev | ⬜ |
-| 13.2.1 | Agregar prompt en prompts.js | Template para examen de selección única que recibe número de preguntas | `backend/utils/prompts.js` | Programador | ⬜ |
-| 13.2.2 | Modificar routes/generate.js | Recibir parámetro num_preguntas en request body | `backend/routes/generate.js` | Programador | ⬜ |
-| 13.2.3 | Actualizar prompts.js | Función que genera prompt específico para examen con N preguntas | `backend/utils/prompts.js` | Programador | ⬜ |
-| 13.2.4 | Validación backend | Verificar que documento tenga suficiente contenido para preguntas solicitadas | `backend/routes/generate.js` | Programador | ⬜ |
-| 13.3.1 | Actualizar create_docx.js | Función formatExamenSeleccion() para formato específico de examen | `backend/scripts/create_docx.js` | Programador | ⬜ |
-| 13.3.2 | Formato preguntas DOCX | Negrita para pregunta, opciones con letras (a, b, c), espacio para respuesta | `backend/scripts/create_docx.js` | Programador | ⬜ |
-| 13.3.3 | Espacio para respuestas | Checkboxes (□) o líneas para que estudiante marque opción correcta | `backend/scripts/create_docx.js` | Programador | ⬜ |
-| 13.3.4 | Hoja de respuestas | Tabla opcional para profesor con respuestas correctas | `backend/scripts/create_docx.js` | Programador | ⬜ |
+| 13.1.1 | Agregar opción en MaterialSelector.jsx | Nueva card para "Examen de Selección Única" con icono CheckSquare, color indigo | `frontend/src/components/MaterialSelector.jsx` | FrontendDev | ✅ |
+| 13.1.2 | Modificar ExtraInstructions.jsx | Agregar campo numérico para número de preguntas (5-50, default: 10) | `frontend/src/components/ExtraInstructions.jsx` | FrontendDev | ✅ |
+| 13.1.3 | Actualizar App.jsx | Manejar nuevo materialType 'examen_seleccion' y parámetro numPreguntas | `frontend/src/App.jsx` | FrontendDev | ✅ |
+| 13.1.4 | Validación frontend | Validar rango 5-50 preguntas en campo numérico | `frontend/src/components/ExtraInstructions.jsx` | FrontendDev | ✅ |
+| 13.2.1 | Agregar prompt en prompts.js | Template para examen de selección única que recibe número de preguntas | `backend/utils/prompts.js` | Programador | ✅ |
+| 13.2.2 | Modificar routes/generate.js | Recibir parámetro num_preguntas en request body | `backend/routes/generate.js` | Programador | ✅ |
+| 13.2.3 | Actualizar prompts.js | Función que genera prompt específico para examen con N preguntas | `backend/utils/prompts.js` | Programador | ✅ |
+| 13.2.4 | Validación backend | Verificar que documento tenga suficiente contenido para preguntas solicitadas | `backend/routes/generate.js` | Programador | ✅ |
+| 13.3.1 | Actualizar create_docx.js | Función parseExamenMarkdown() para formato específico de examen | `backend/scripts/create_docx.js` | Programador | ✅ |
+| 13.3.2 | Formato preguntas DOCX | Negrita para pregunta, opciones con letras (a, b, c), espacio para respuesta | `backend/scripts/create_docx.js` | Programador | ✅ |
+| 13.3.3 | Espacio para respuestas | Checkboxes (□) para que estudiante marque opción correcta | `backend/scripts/create_docx.js` | Programador | ✅ |
+| 13.3.4 | Hoja de respuestas | Page break + tabla con clave de respuestas para el profesor | `backend/scripts/create_docx.js` | Programador | ✅ |
 | 13.4.1 | Extender endpoint /api/generate | Agregar parámetro num_preguntas al request body | `backend/routes/generate.js` | Programador | ⬜ |
 | 13.4.2 | Esquema SQLite | Ya soporta material_type, solo agregar nuevo valor 'examen_seleccion' | — | ExpertSQL | ⬜ |
 | 13.4.3 | Validación contenido | Documento debe tener suficiente texto para generar N preguntas | `backend/routes/generate.js` | Programador | ⬜ |
-| 13.5.1 | Pruebas unitarias | Validar generación de preguntas con diferentes números de preguntas | — | QA | ⬜ |
-| 13.5.2 | Pruebas E2E | Flujo completo: upload → seleccionar examen → especificar preguntas → generar → download | — | QA | ⬜ |
-| 13.5.3 | Validación calidad | Preguntas no triviales, opciones balanceadas, solo una correcta por pregunta | — | QA | ⬜ |
-| 13.5.4 | Pruebas límite | Mínimo 5, máximo 50 preguntas, documentos con poco contenido | — | QA | ⬜ |
+| 13.5.1 | Pruebas unitarias | Validar generación de preguntas con diferentes números de preguntas | — | QA | ✅ |
+| 13.5.2 | Pruebas E2E | Flujo completo: upload → seleccionar examen → especificar preguntas → generar → download | — | QA | ✅ |
+| 13.5.3 | Validación calidad | Preguntas no triviales, opciones balanceadas, solo una correcta por pregunta | — | QA | ✅ |
+| 13.5.4 | Pruebas límite | Mínimo 5, máximo 50 preguntas, documentos con poco contenido | — | QA | ✅ |
 
 ### Diseño visual propuesto
 
