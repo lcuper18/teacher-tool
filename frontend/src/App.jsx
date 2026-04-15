@@ -40,6 +40,7 @@ function App() {
   // Material selection state
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [extraInstructions, setExtraInstructions] = useState('');
+  const [numPreguntas, setNumPreguntas] = useState(10);
   
   // Generation state
   const [generatedContent, setGeneratedContent] = useState('');
@@ -60,6 +61,7 @@ function App() {
     setExtractedText('');
     setSelectedMaterial(null);
     setExtraInstructions('');
+    setNumPreguntas(10);
     setGeneratedContent('');
     setUploadError(null);
     setGenerationError(null);
@@ -164,7 +166,8 @@ function App() {
           model: currentModel,
           material_type: selectedMaterial,
           input_text: extractedText,
-          extra_instructions: extraInstructions
+          extra_instructions: extraInstructions,
+          num_preguntas: selectedMaterial === 'examen_seleccion' ? numPreguntas : undefined
         })
       });
       
@@ -306,15 +309,21 @@ function App() {
           selected={selectedMaterial}
           onSelect={setSelectedMaterial}
         />
-        
+
         <ExtraInstructions
           value={extraInstructions}
           onChange={setExtraInstructions}
           maxLength={500}
+          showNumPreguntas={selectedMaterial === 'examen_seleccion'}
+          numPreguntas={numPreguntas}
+          onNumPreguntasChange={setNumPreguntas}
         />
-        
+
         {selectedMaterial && (
-          <Button onClick={handleGenerate}>
+          <Button
+            onClick={handleGenerate}
+            disabled={selectedMaterial === 'examen_seleccion' && (numPreguntas < 5 || numPreguntas > 50)}
+          >
             Generar material
           </Button>
         )}

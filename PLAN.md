@@ -18,6 +18,8 @@
 | 9 | Frontend: streaming visible al generar | ✅ Completado |
 | 10 | Integración completa + pruebas | ✅ Completado |
 | 11 | Indicador de progreso + mensajes de estado | ✅ Completado |
+| 12 | Scripts de instalación y ejecución | ✅ Completado |
+| 13 | Examen de selección única (nueva funcionalidad) | ✅ Completado |
 
 ---
 
@@ -397,12 +399,6 @@ Color acento:  #c96442 (naranja — coherente con interfaz)
 | 10.7 | Prueba PDF escaneado | Subir un PDF sin texto seleccionable y verificar que el error llega limpiamente a la UI | QA | ✅ |
 | 10.8 | Crear `README.md` | Documentar requisitos del sistema, pasos de instalación, configuración del `.env` y comandos de arranque | ProjectManager | ✅ |
 | 10.9 | Script de arranque único | Verificar que `npm run dev` levanta backend y frontend en paralelo y ambos están operativos | DevOps | ✅ |
-| 11.1 | Eventos SSE de progreso en backend | Agregar evento `progress` al stream SSE en `generate.js` con tipo, porcentaje y mensaje de estado | Programador | ⬜ |
-| 11.2 | Mensajes de estado dinámicos | Crear mapa de mensajes por etapa: 0-10% Analizando, 30-50% Generando, 70-90% Finalizando, etc. | Programador | ⬜ |
-| 11.3 | Componente `ProgressBar.jsx` | Crear componente visual con barra de progreso animada, porcentaje y mensaje de estado | FrontendDev | ⬜ |
-| 11.4 | Integrar ProgressBar en App.jsx | Conectar eventos SSE de progreso al componente ProgressBar durante la generación | FrontendDev | ⬜ |
-| 11.5 | Animación de "pensando" pre-generación | Mostrar pulso/spinner antes de recibir el primer chunk (latencia inicial del modelo) | FrontendDev | ⬜ |
-| 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con DeepSeek, MiniMax, Gemma, Qwen y Granite | QA | ⬜ |
 
 ---
 
@@ -461,6 +457,30 @@ El porcentaje se estima en base a **chunks recibidos vs estimado** según tipo d
 | 11.4 | Integrar ProgressBar en App.jsx | Conectar eventos `progress` del SSE al estado del componente ProgressBar | `frontend/src/App.jsx` | FrontendDev | ✅ |
 | 11.5 | Animación pre-generación | Mostrar pulso/spinner antes del primer chunk (latencia inicial del modelo) | `frontend/src/App.jsx` | FrontendDev | ✅ |
 | 11.6 | Prueba con todos los modelos | Verificar que el indicador funciona con DeepSeek, MiniMax, Gemma, Qwen y Granite | — | QA | ✅ |
+| 12.1 | Crear `scripts/install.sh` | Script que verifica prerequisites, instala dependencias, configura entorno Python y npm | `scripts/install.sh` | DevOps | ✅ |
+| 12.2 | Crear `scripts/run.sh` | Script que inicia backend + frontend, gestiona procesos, verifica estado y abre navegador | `scripts/run.sh` | DevOps | ✅ |
+| 12.3 | Agregar scripts al `.gitignore` | Excluir archivos temporales (.pid, logs) del control de versiones | `.gitignore` | ExpertGit | ✅ |
+| 12.4 | Documentar uso de scripts | Agregar sección en README.md sobre instalación y ejecución con scripts | `README.md` | ProjectManager | ✅ |
+| 12.5 | Probar scripts en diferentes entornos | Verificar funcionamiento en Linux, macOS y WSL | — | QA | ✅ |
+| 13.1.1 | Agregar opción en MaterialSelector.jsx | Nueva card para "Examen de Selección Única" con icono CheckSquare, color indigo | `frontend/src/components/MaterialSelector.jsx` | FrontendDev | ✅ |
+| 13.1.2 | Modificar ExtraInstructions.jsx | Agregar campo numérico para número de preguntas (5-50, default: 10) | `frontend/src/components/ExtraInstructions.jsx` | FrontendDev | ✅ |
+| 13.1.3 | Actualizar App.jsx | Manejar nuevo materialType 'examen_seleccion' y parámetro numPreguntas | `frontend/src/App.jsx` | FrontendDev | ✅ |
+| 13.1.4 | Validación frontend | Validar rango 5-50 preguntas en campo numérico | `frontend/src/components/ExtraInstructions.jsx` | FrontendDev | ✅ |
+| 13.2.1 | Agregar prompt en prompts.js | Template para examen de selección única que recibe número de preguntas | `backend/utils/prompts.js` | Programador | ✅ |
+| 13.2.2 | Modificar routes/generate.js | Recibir parámetro num_preguntas en request body | `backend/routes/generate.js` | Programador | ✅ |
+| 13.2.3 | Actualizar prompts.js | Función que genera prompt específico para examen con N preguntas | `backend/utils/prompts.js` | Programador | ✅ |
+| 13.2.4 | Validación backend | Verificar que documento tenga suficiente contenido para preguntas solicitadas | `backend/routes/generate.js` | Programador | ✅ |
+| 13.3.1 | Actualizar create_docx.js | Función parseExamenMarkdown() para formato específico de examen | `backend/scripts/create_docx.js` | Programador | ✅ |
+| 13.3.2 | Formato preguntas DOCX | Negrita para pregunta, opciones con letras (a, b, c), espacio para respuesta | `backend/scripts/create_docx.js` | Programador | ✅ |
+| 13.3.3 | Espacio para respuestas | Checkboxes (□) para que estudiante marque opción correcta | `backend/scripts/create_docx.js` | Programador | ✅ |
+| 13.3.4 | Hoja de respuestas | Page break + tabla con clave de respuestas para el profesor | `backend/scripts/create_docx.js` | Programador | ✅ |
+| 13.4.1 | Extender endpoint /api/generate | Agregar parámetro num_preguntas al request body | `backend/routes/generate.js` | Programador | ⬜ |
+| 13.4.2 | Esquema SQLite | Ya soporta material_type, solo agregar nuevo valor 'examen_seleccion' | — | ExpertSQL | ⬜ |
+| 13.4.3 | Validación contenido | Documento debe tener suficiente texto para generar N preguntas | `backend/routes/generate.js` | Programador | ⬜ |
+| 13.5.1 | Pruebas unitarias | Validar generación de preguntas con diferentes números de preguntas | — | QA | ✅ |
+| 13.5.2 | Pruebas E2E | Flujo completo: upload → seleccionar examen → especificar preguntas → generar → download | — | QA | ✅ |
+| 13.5.3 | Validación calidad | Preguntas no triviales, opciones balanceadas, solo una correcta por pregunta | — | QA | ✅ |
+| 13.5.4 | Pruebas límite | Mínimo 5, máximo 50 preguntas, documentos con poco contenido | — | QA | ✅ |
 
 ### Diseño visual propuesto
 
@@ -553,6 +573,158 @@ npm run build
 | 2026-04-12 | 9 | Fase 9 completada: streaming visible en generar | ✅ |
 | 2026-04-12 | 10 | Fase 10 completada: pruebas E2E (10.1-10.7) | ✅ |
 | 2026-04-12 | 11 | Fase 11 completada: indicador de progreso + mensajes de estado | ✅ |
+
+---
+
+---
+
+## Fase 12 — Scripts de instalación y ejecución
+
+### Objetivo
+Crear scripts automatizados para facilitar la instalación y ejecución de Teacher Tool, mejorando la experiencia de usuario y simplificando el despliegue.
+
+### Tareas
+- [ ] 12.1 Crear `scripts/install.sh` — Verifica prerequisites, instala dependencias, configura entorno
+- [ ] 12.2 Crear `scripts/run.sh` — Inicia backend + frontend, gestiona procesos, verifica estado
+- [ ] 12.3 Agregar scripts al `.gitignore` — Excluir archivos temporales (.pid, logs)
+- [ ] 12.4 Documentar uso de scripts en README.md
+- [ ] 12.5 Probar scripts en diferentes entornos (Linux, macOS)
+
+### Características de los scripts
+- **install.sh:** Verifica Node.js 18+, Python 3.12+, npm, LibreOffice, Ollama
+- **run.sh:** Inicia servicios, verifica salud, abre navegador, gestión de PIDs
+- **Logs:** `logs/backend.log`, `logs/frontend.log`
+- **Estado:** `./scripts/run.sh --check` verifica sistema completo
+
+---
+
+## Fase 13 — Examen de selección única (nueva funcionalidad)
+
+### Objetivo
+Agregar funcionalidad para generar exámenes de selección única con 3 opciones por pregunta, donde solo una es correcta. El usuario especifica el número de preguntas deseado.
+
+### Especificaciones
+- **Entrada:** Documento/guía de estudio (PDF/DOC/DOCX)
+- **Parámetro:** Número de preguntas (5-50, valor por defecto: 10)
+- **Salida:** Examen en formato DOCX con preguntas de selección única
+- **Formato:** 3 opciones por pregunta (a, b, c), solo una correcta
+- **Nivel:** Educación secundaria (12-18 años)
+
+### Flujo de usuario
+1. Subir documento → extraer texto
+2. Seleccionar "Examen de Selección Única"
+3. Especificar número de preguntas (input numérico)
+4. Opcional: agregar instrucciones adicionales
+5. Generar → streaming visible
+6. Descargar DOCX con examen formateado
+
+### Tareas
+
+#### 13.1 Frontend — Interfaz de usuario
+- [ ] 13.1.1 Agregar opción en `MaterialSelector.jsx` — Icono `CheckSquare`, color `indigo`
+- [ ] 13.1.2 Modificar `ExtraInstructions.jsx` — Agregar campo numérico para número de preguntas
+- [ ] 13.1.3 Actualizar `App.jsx` — Manejar nuevo `materialType: 'examen_seleccion'`
+- [ ] 13.1.4 Validación frontend — Rango 5-50 preguntas, valor por defecto 10
+
+#### 13.2 Backend — Lógica de negocio
+- [ ] 13.2.1 Agregar prompt en `prompts.js` — Template para examen de selección única
+- [ ] 13.2.2 Modificar `routes/generate.js` — Recibir parámetro `num_preguntas`
+- [ ] 13.2.3 Actualizar `utils/prompts.js` — Función que recibe número de preguntas
+- [ ] 13.2.4 Validación backend — Verificar contenido suficiente para preguntas solicitadas
+
+#### 13.3 Generación DOCX — Formato específico
+- [ ] 13.3.1 Actualizar `scripts/create_docx.js` — Función `formatExamenSeleccion()`
+- [ ] 13.3.2 Formato preguntas — Negrita para pregunta, opciones con letras (a, b, c)
+- [ ] 13.3.3 Espacio para respuestas — Checkboxes (□) o líneas para marcar
+- [ ] 13.3.4 Hoja de respuestas — Tabla opcional para profesor
+
+#### 13.4 API y base de datos
+- [ ] 13.4.1 Extender endpoint `/api/generate` — Parámetro `num_preguntas` en request body
+- [ ] 13.4.2 Esquema SQLite — Ya soporta `material_type`, solo agregar nuevo valor
+- [ ] 13.4.3 Validación — Documento debe tener suficiente contenido para preguntas solicitadas
+
+#### 13.5 Testing y validación
+- [ ] 13.5.1 Pruebas unitarias — Validar generación de preguntas
+- [ ] 13.5.2 Pruebas E2E — Flujo completo con diferentes documentos
+- [ ] 13.5.3 Validación calidad — Preguntas no triviales, opciones balanceadas
+- [ ] 13.5.4 Pruebas límite — Mínimo 5, máximo 50 preguntas
+
+### Formato de salida esperado (markdown)
+
+```
+## Examen de Selección Única
+
+### Instrucciones:
+Responde marcando con una X la opción correcta.
+
+### Pregunta 1:
+[Texto de la pregunta - basado en contenido del documento]
+
+a) [Opción A - incorrecta pero plausible]
+b) [Opción B - correcta]
+c) [Opción C - incorrecta]
+
+### Pregunta 2:
+...
+
+### Hoja de respuestas (para el profesor):
+1. b
+2. a
+3. c
+...
+```
+
+### Prompt específico para IA
+```
+Crea un examen de selección única con [N] preguntas basado en el contenido proporcionado.
+
+Requisitos:
+- [N] preguntas de selección única
+- 3 opciones por pregunta (a, b, c)
+- Solo UNA opción correcta por pregunta
+- Las opciones incorrectas deben ser plausibles pero claramente erróneas
+- Las preguntas deben evaluar comprensión, no solo memoria
+- Incluye 2-3 preguntas de aplicación práctica
+- Nivel: educación secundaria (12-18 años)
+
+Formato de salida:
+## Examen de Selección Única
+### Instrucciones: [instrucciones para estudiante]
+### Pregunta 1: [pregunta]
+a) [opción A]
+b) [opción B]
+c) [opción C]
+...
+```
+
+### Consideraciones técnicas
+- **Integración con modelos IA:** Prompt debe generar preguntas balanceadas y no ambiguas
+- **Validación:** Garantizar que solo una opción sea correcta por pregunta
+- **Experiencia usuario:** Feedback durante generación, preview antes de descargar
+- **Rendimiento:** Optimizar para documentos largos con muchas preguntas
+
+### Archivos a modificar
+```
+frontend/
+├── src/components/MaterialSelector.jsx     (+1 opción: examen_seleccion)
+├── src/components/ExtraInstructions.jsx   (+campo numérico: num_preguntas)
+├── src/App.jsx                            (manejo estado y parámetros)
+└── src/hooks/useGenerate.js               (extender parámetros)
+
+backend/
+├── utils/prompts.js                       (+nuevo prompt: examen_seleccion)
+├── routes/generate.js                     (+parámetro: num_preguntas)
+└── scripts/create_docx.js                 (+formato específico examen)
+```
+
+### Timeline estimado
+| Componente | Horas | Prioridad |
+|------------|-------|-----------|
+| Frontend UI | 2-3 | Alta |
+| Backend lógica | 2-3 | Alta |
+| Generación DOCX | 1-2 | Media |
+| Testing | 1-2 | Media |
+| **Total** | **6-10** | |
 
 ---
 

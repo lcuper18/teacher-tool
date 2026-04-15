@@ -18,6 +18,9 @@ Herramienta web local para docentes de secundaria que genera materiales de estud
 | 8 | Frontend: historial de sesiones (sidebar) | ✅ Completado |
 | 9 | Frontend: streaming visible al generar | ✅ Completado |
 | 10 | Integración completa + pruebas | ✅ Completado |
+| 11 | Indicador de progreso + mensajes de estado | ✅ Completado |
+| 12 | Scripts de instalación y ejecución | ✅ Completado |
+| 13 | Examen de selección única (nueva funcionalidad) | ✅ Completado |
 
 ---
 
@@ -178,6 +181,99 @@ Genera los archivos estáticos optimizados en `frontend/dist/`.
 
 ---
 
+## Scripts de instalación y ejecución
+
+### Instalación rápida
+```bash
+# Instalar todas las dependencias
+./scripts/install.sh
+
+# Verificar estado del sistema
+./scripts/run.sh --check
+```
+
+### Ejecución
+```bash
+# Iniciar aplicación completa (backend + frontend)
+./scripts/run.sh
+
+# Solo backend
+./scripts/run.sh --backend-only
+
+# Solo frontend
+./scripts/run.sh --frontend-only
+
+# Detener servicios
+./scripts/run.sh --stop
+
+# Verificar estado
+./scripts/run.sh --check
+```
+
+Los scripts automáticamente:
+- Verifican prerequisites (Node.js, Python, LibreOffice, Ollama)
+- Inician servicios en puertos correctos
+- Abren navegador automáticamente
+- Gestionan procesos (PIDs en `.backend.pid`, `.frontend.pid`)
+- Guardan logs en `logs/` directory
+
+---
+
+## Examen de Selección Única (Nueva funcionalidad)
+
+**Estado:** 🟡 **Frontend + Backend implementado - Generación DOCX pendiente**
+
+Teacher Tool ahora incluye una funcionalidad especializada para generar **exámenes de selección única** a partir de guías de estudio o documentos de contenido.
+
+### Características:
+- **Genera exámenes personalizados** basados en el contenido del documento
+- **3 opciones por pregunta** (a, b, c) - solo una correcta
+- **Número configurable** de preguntas (5-50, valor por defecto: 10)
+- **Formato DOCX profesional** con espacio para respuestas
+- **Nivel secundaria** (12-18 años) - preguntas adaptadas al nivel
+
+### Cómo usar:
+1. Subir un documento (PDF, DOC, DOCX) con contenido educativo
+2. Seleccionar **"Examen de Selección Única"** (icono 📝, color índigo)
+3. Especificar **número de preguntas** deseado (campo numérico)
+4. Opcional: agregar instrucciones adicionales
+5. Generar → el sistema crea preguntas balanceadas y relevantes
+6. Descargar examen en formato DOCX listo para imprimir
+
+### Formato de salida:
+- Preguntas claras y concisas
+- Opciones plausibles pero con solo una correcta
+- Espacio para que el estudiante marque su respuesta
+- Preguntas que evalúan comprensión, no solo memoria
+- Hoja de respuestas para el profesor
+
+### Implementación completada (Frontend):
+✅ **MaterialSelector.jsx** - Nueva opción "Examen de Selección Única" con icono CheckSquare, color índigo  
+✅ **ExtraInstructions.jsx** - Campo numérico para número de preguntas (5-50, default: 10)  
+✅ **App.jsx** - Manejo de `materialType: 'examen_seleccion'` y parámetro `numPreguntas`  
+✅ **Validación frontend** - Rango 5-50 preguntas en tiempo real, botón deshabilitado si inválido
+
+### Implementación completada (Backend):
+✅ **prompts.js** - Template para examen de selección única con número de preguntas parametrizable  
+✅ **generate.js** - Recibe parámetro `num_preguntas` y valida rango 5-50  
+✅ **Validación backend** - Verifica contenido suficiente (~100 caracteres por pregunta)  
+✅ **Endpoint /api/generate** - Acepta nuevo tipo de material `examen_seleccion`
+
+### Implementación completada (Generación DOCX):
+✅ **create_docx.js** - Función `parseExamenMarkdown()` con formato específico para exámenes  
+✅ **Formato preguntas** - Preguntas en negrita, opciones con letras (a, b, c)  
+✅ **Checkboxes** - Símbolo □ para que el estudiante marque su respuesta  
+✅ **Hoja de respuestas** - Page break + clave de respuestas para el profesor en página separada
+
+### Testing completado:
+✅ **test-phase13.sh** - Script de pruebas para validar funcionalidad  
+✅ **Pruebas unitarias** - Prompt template, parámetros, opciones  
+✅ **Validación de calidad** - 6 verificaciones de prompt (3 opciones, comprensión, etc.)  
+✅ **Pruebas de límite** - Rango 5-50 implementado en frontend y backend  
+✅ **Verificación DOCX** - parseExamenMarkdown, PageBreak, checkboxes, hoja de respuestas
+
+---
+
 ## Uso de la aplicación
 
 ### Flujo de trabajo
@@ -186,11 +282,13 @@ Genera los archivos estáticos optimizados en `frontend/dist/`.
 2. **Seleccionar tipo de material** — Elegir entre:
    - Guía de estudio
    - Ejercicios y evaluación
+   - Examen de selección única (nuevo)
    - Plan de clase
    - Adaptación por nivel
    - Mapa conceptual
    - Glosario de términos
 3. **Configurar opciones** — Opcionalmente agregar instrucciones extra
+   - Para "Examen de selección única": especificar número de preguntas (5-50)
 4. **Generar** — El contenido se genera en tiempo real con streaming visible
 5. **Descargar** — Descargar el material generado en formato DOCX
 

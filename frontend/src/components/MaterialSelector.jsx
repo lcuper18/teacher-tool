@@ -1,8 +1,9 @@
-import { BookOpen, PenLine, CalendarDays, BarChart2, GitBranch, Bookmark } from 'lucide-react';
+import { BookOpen, PenLine, CalendarDays, BarChart2, GitBranch, Bookmark, CheckSquare } from 'lucide-react';
 
 const MATERIALS = [
   { id: 'guia', name: 'Guía de Estudio', icon: BookOpen, color: 'blue', description: 'Resumen jerárquico con conceptos clave' },
   { id: 'ejercicios', name: 'Ejercicios y Evaluación', icon: PenLine, color: 'green', description: '5 opción múltiple + 3 V/F + 2 desarrollo' },
+  { id: 'examen_seleccion', name: 'Examen de Selección Única', icon: CheckSquare, color: 'indigo', description: 'Examen con 3 opciones por pregunta, una correcta' },
   { id: 'plan_clase', name: 'Plan de Clase', icon: CalendarDays, color: 'purple', description: 'Inicio/desarrollo/cierre, 50 minutos' },
   { id: 'niveles', name: 'Adaptación por Nivel', icon: BarChart2, color: 'yellow', description: 'Básico, estándar y avanzado' },
   { id: 'mapa', name: 'Mapa Conceptual', icon: GitBranch, color: 'cyan', description: 'Jerarquía visual de conceptos' },
@@ -16,7 +17,8 @@ function MaterialSelector({ selected, onSelect }) {
     purple: 'border-purple-500 bg-purple-500/10 text-purple-400',
     yellow: 'border-yellow-500 bg-yellow-500/10 text-yellow-400',
     cyan: 'border-cyan-500 bg-cyan-500/10 text-cyan-400',
-    accent: 'border-accent bg-accent/10 text-accent'
+    accent: 'border-accent bg-accent/10 text-accent',
+    indigo: 'border-indigo-500 bg-indigo-500/10 text-indigo-400'
   };
 
   return (
